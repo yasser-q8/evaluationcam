@@ -63,8 +63,6 @@ body{
 .ring-bg,.ring-fill{fill:none;stroke-width:3;}
 .ring-bg{stroke:rgba(255,255,255,0.3);}
 .ring-fill{stroke:#ffd966;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .4s;}
-.headerScoreSmall{font-size:13px;font-weight:900;color:#ffd966;line-height:1;}
-/* scroll */
 .scroll-area{
   flex:1;
   overflow-y:auto;
@@ -76,7 +74,6 @@ body{
 .page{display:none;animation:fadeIn .2s ease;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
-/* bottom nav */
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
   height:calc(var(--nav-h) + var(--safe-bottom));
@@ -98,7 +95,6 @@ body{
 .nav-lbl{font-size:9px;font-weight:700;}
 .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--blue);margin-top:2px;opacity:0;}
 .nav-item.active .nav-dot{opacity:1;}
-/* Cards */
 .info-card, .sec-pill, .notes-card, .final-box, .chart-card, .rec-card{
   background:var(--card-white);
   border:1px solid var(--border-light);
@@ -235,38 +231,34 @@ body{
 .act-wa{background:#25D366;color:white;}
 .act-pdf{background:#f57c00;color:white;}
 .act-reset{background:var(--gray-bg);border:1px solid var(--border-light);color:var(--red);font-size:18px;}
-.alphabet-bar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin:0 0 10px 0;
-  justify-content:center;
+/* dynamic branch suggestions */
+.branch-suggestions {
+  position: relative;
+  width: 100%;
 }
-.alpha-btn{
-  background:var(--blue-light);
-  border:none;
-  width:38px;height:38px;
-  border-radius:40px;
-  font-weight:700;
-  font-size:14px;
-  color:var(--blue-dark);
-  cursor:pointer;
-  transition:all .1s;
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 200;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: none;
+  margin-top: 4px;
 }
-.alpha-btn:active{background:var(--blue);color:white;transform:scale(.95);}
-.branch-suggest{
-  margin:4px 0 8px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
+.suggestions-dropdown div {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
 }
-.suggest-chip{
-  background:var(--gray-bg);
-  padding:6px 14px;
-  border-radius:40px;
-  font-size:12px;
-  border:1px solid var(--border-light);
-  cursor:pointer;
+.suggestions-dropdown div:hover {
+  background: var(--blue-light);
 }
 .chart-row{
   display:flex;
@@ -315,10 +307,13 @@ body{
         <div><div style="font-weight:800;">بيانات الزيارة</div><div style="font-size:10px;color:var(--text-muted);">Visit Information</div></div>
       </div>
       <div class="info-card-body" style="padding:16px;">
-        <div class="field"><label>اسم الفرع · Branch Name</label><input type="text" id="branchName" placeholder="اكتب أو اختر فرعاً" autocomplete="off" list="branches-list"></div>
-        <datalist id="branches-list"></datalist>
-        <div class="alphabet-bar" id="alphabetBar"></div>
-        <div id="branchSuggestions" class="branch-suggest"></div>
+        <div class="field">
+          <label>اسم الفرع · Branch Name</label>
+          <div class="branch-suggestions">
+            <input type="text" id="branchName" placeholder="اكتب حرفاً لظهور المطاعم" autocomplete="off">
+            <div id="branchSuggestDropdown" class="suggestions-dropdown"></div>
+          </div>
+        </div>
         <div class="field"><label>اسم المقيّم · Evaluator</label><input type="text" id="evaluatorName"></div>
         <div class="fields-row" style="display:flex;gap:12px;"><div class="field" style="flex:1"><label>التاريخ</label><input type="date" id="visitDate"></div><div class="field" style="flex:1"><label>الوقت</label><input type="time" id="visitTime"></div></div>
         <div class="field"><label>نوع التقييم</label><div class="type-row"><div class="type-opt sel" id="tOpt1" onclick="window.selType(1)"><span class="tdot"></span><div><div class="type-opt-ar">زيارة ميدانية</div><div class="type-opt-en">Dine-in</div></div></div><div class="type-opt" id="tOpt2" onclick="window.selType(2)"><span class="tdot"></span><div><div class="type-opt-ar">مراجعة كاميرات</div><div class="type-opt-en">Camera Review</div></div></div></div></div>
@@ -333,7 +328,6 @@ body{
       <button class="act-btn act-pdf" id="pdfBtn">📄 PDF</button>
       <button class="act-btn act-reset" id="resetBtn">↺</button>
     </div>
-    <div style="height:10px;"></div>
   </div>
   <!-- DASHBOARD PAGE -->
   <div class="page" id="page-dash">
@@ -350,10 +344,10 @@ body{
 
 <script>
 // =============== MASTER BRANCH LIST (from user data) =============
-const BRANCHES_DATA = [
+const ALL_BRANCHES = [
   "مجمع 360","جمعية أبو فطيرة","ابو حليفة","الاحمدي الصناعية","الري","مجمع الكوت","مجمع الأفنيوز","الضباعية","الدسمة","الفحيحيل","الفيحاء","الفروانية","الفنطاس","هدية","حولي بارك","جابر الأحمد","الجابرية 1 - تكا","الجابرية 2 - بنت الديك","الجهراء 2 - الصناعية","الجهراء ليالي الشرق","الجهراء مكة","الجهراء 1 - الزويخ","جليب الشيوخ","كبد","الخيران أويا","مجمع الخيران","خيطان الجديدة","الخيول","المنقف","مجمع المارينا","مشرف","العارضية الجديدة","الفروانية الجديدة","القادسية","القيروان","القرين","الرقعي","الرحاب","الرقة","صباح الأحمد","صباح السالم","صباح السالم العرين","السالمية 1 - النافورة","السالمية 2 - السندباد","السالمية 3 - شارع البحرين","السالمية 4 - سيد ياسين","سلوى","الشرق","الشهداء","الشويخ","أسواق القرين","جمعية الصليبية","الصليبخات","الصليبية","الوفرة","غرب ابو فطيرة","الزهراء"
 ];
-const ALL_BRANCHES = [...BRANCHES_DATA];
+
 // ================== GLOBALS ===================
 let scores = {};
 let upsellVal = '';
@@ -369,29 +363,24 @@ const SECTIONS = [
 
 // Helper functions
 function showToast(msg){ let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
-function saveRecordsToLocal(){ localStorage.setItem('naif_ms',JSON.stringify(records)); updateBranchDatalist(); }
+function saveRecordsToLocal(){ localStorage.setItem('naif_ms',JSON.stringify(records)); }
 function loadRecords(){ try{ records=JSON.parse(localStorage.getItem('naif_ms')||'[]'); }catch(e){ records=[]; } }
 
-function updateBranchDatalist(){
-  let dl=document.getElementById('branches-list');
-  dl.innerHTML=ALL_BRANCHES.map(b=>`<option value="${b}">`).join('');
-}
-
-function buildAlphabetFilter(){
-  let letters=['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
-  let bar=document.getElementById('alphabetBar');
-  bar.innerHTML=letters.map(l=>`<button class="alpha-btn" data-letter="${l}">${l}</button>`).join('');
-  document.querySelectorAll('.alpha-btn').forEach(btn=>{
-    btn.addEventListener('click',(e)=>{
-      let letter=e.target.getAttribute('data-letter');
-      let filtered=ALL_BRANCHES.filter(b=>b.startsWith(letter));
-      let suggDiv=document.getElementById('branchSuggestions');
-      if(filtered.length){
-        suggDiv.innerHTML=filtered.slice(0,12).map(b=>`<div class="suggest-chip" onclick="document.getElementById('branchName').value='${b.replace(/'/g,"\\'")}'; suggDiv.innerHTML='';">${b}</div>`).join('');
-      } else suggDiv.innerHTML='<div class="suggest-chip">لا توجد فروع</div>';
-    });
+// Dynamic branch search
+function initBranchSearch() {
+  const input = document.getElementById('branchName');
+  const dropdown = document.getElementById('branchSuggestDropdown');
+  input.addEventListener('input', function(e) {
+    const value = this.value.trim();
+    if (value === '') { dropdown.style.display = 'none'; return; }
+    const filtered = ALL_BRANCHES.filter(b => b.includes(value));
+    if (filtered.length === 0) { dropdown.style.display = 'none'; return; }
+    dropdown.innerHTML = filtered.map(b => `<div onclick="document.getElementById('branchName').value='${b.replace(/'/g,"\\'")}'; dropdown.style.display='none';">${b}</div>`).join('');
+    dropdown.style.display = 'block';
   });
-  document.addEventListener('click',function(e){ if(!e.target.closest('.alpha-btn') && !e.target.closest('.suggest-chip')) document.getElementById('branchSuggestions').innerHTML=''; });
+  document.addEventListener('click', function(e) {
+    if (!input.contains(e.target) && !dropdown.contains(e.target)) dropdown.style.display = 'none';
+  });
 }
 
 function buildForm(){
@@ -414,19 +403,17 @@ function buildForm(){
 window.toggleSec = function(key){ document.getElementById('body-'+key).classList.toggle('open'); };
 window.chScore = function(id,max,d){
   scores[id]=Math.min(max,Math.max(0,(scores[id]||0)+d));
-  document.getElementById('val-'+id).innerText=scores[id];
-  let fill=document.getElementById('bar-'+id);
-  if(fill) fill.style.width=(scores[id]/max*100)+'%';
+  let valSpan=document.getElementById('val-'+id); if(valSpan) valSpan.innerText=scores[id];
+  let fill=document.getElementById('bar-'+id); if(fill) fill.style.width=(scores[id]/max*100)+'%';
   recalc();
 };
 function recalc(){
   let grand=0;
   SECTIONS.forEach(sec=>{
     let tot=0; sec.items.forEach(it=>tot+=scores[it.id]);
-    document.getElementById('badge-'+sec.key).innerText=tot+'/'+sec.max;
-    document.getElementById('total-'+sec.key).innerText=tot+'/'+sec.max;
-    let prog=document.getElementById('prog-'+sec.key);
-    if(prog) prog.style.width=(tot/sec.max*100)+'%';
+    let badge=document.getElementById('badge-'+sec.key); if(badge) badge.innerText=tot+'/'+sec.max;
+    let totalSpan=document.getElementById('total-'+sec.key); if(totalSpan) totalSpan.innerText=tot+'/'+sec.max;
+    let prog=document.getElementById('prog-'+sec.key); if(prog) prog.style.width=(tot/sec.max*100)+'%';
     grand+=tot;
   });
   document.getElementById('finalNum').innerText=grand;
@@ -442,7 +429,6 @@ window.selUpsell = function(v){ upsellVal=v; ['uUp1','uUp2','uUp3'].forEach((id,
 window.selType = function(n){ visitType=n; document.getElementById('tOpt1').classList.toggle('sel',n===1); document.getElementById('tOpt2').classList.toggle('sel',n===2); };
 function getGrade(g){ return g>=90?'E':g>=80?'V':g>=70?'G':'I'; }
 
-// Save record
 window.saveRecord = function(){
   let branch=document.getElementById('branchName').value.trim();
   if(!branch){ showToast('⚠️ أدخل اسم الفرع'); return; }
@@ -462,7 +448,6 @@ window.saveRecord = function(){
   });
   saveRecordsToLocal();
   showToast(`✅ تم حفظ ${branch} (${grand}/100)`);
-  updateBranchDatalist();
   if(window.renderRecords) window.renderRecords();
   if(window.renderDashboard) window.renderDashboard();
 };
@@ -482,12 +467,13 @@ window.resetForm = function(){
   showToast('↺ تم إعادة التعيين');
 };
 
-// PDF Export for evaluation
+// Enhanced PDF Export with logo and professional layout
 window.exportEvaluationPDF = async function(){
   try{
     let branch=document.getElementById('branchName').value.trim() || 'غير محدد';
     let evaluator=document.getElementById('evaluatorName').value.trim() || '—';
     let date=document.getElementById('visitDate').value || '—';
+    let time=document.getElementById('visitTime').value || '—';
     let notes=document.getElementById('notesText').value.trim() || '—';
     let finalSc=document.getElementById('finalNum').innerText;
     let gradeText=document.getElementById('gradeBadge').innerText;
@@ -495,11 +481,50 @@ window.exportEvaluationPDF = async function(){
     let sectionsHtml='';
     SECTIONS.forEach(sec=>{
       let tot=0; sec.items.forEach(it=>tot+=scores[it.id]);
-      sectionsHtml+=`<div style="margin-bottom:12px;"><strong>${sec.ar}</strong> (${tot}/${sec.max})<div style="background:#eef;border-radius:8px;height:8px;"><div style="width:${(tot/sec.max)*100}%;height:8px;background:#1976D2;border-radius:8px;"></div></div></div>`;
+      let percent = (tot/sec.max)*100;
+      sectionsHtml+=`
+        <div style="margin-bottom: 18px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <strong style="font-size: 14px;">${sec.ar}</strong>
+            <span style="font-size: 13px; color: #1976D2; font-weight: bold;">${tot}/${sec.max}</span>
+          </div>
+          <div style="background: #eef2fc; border-radius: 12px; height: 10px;">
+            <div style="width: ${percent}%; background: linear-gradient(90deg, #d32f2f, #1976D2); height: 10px; border-radius: 12px;"></div>
+          </div>
+        </div>`;
     });
     let element=document.createElement('div');
-    element.style.width='794px'; element.style.background='white'; element.style.padding='24px'; element.style.fontFamily='Cairo'; element.dir='rtl';
-    element.innerHTML=`<div style="text-align:center;"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" style="height:60px;"><h2>تقرير العميل الخفي - مطاعم نايف</h2></div><div style="margin-top:20px;"><strong>الفرع:</strong> ${branch}<br><strong>المقيّم:</strong> ${evaluator}<br><strong>التاريخ/الوقت:</strong> ${date} ${document.getElementById('visitTime').value||''}<br><strong>نوع التقييم:</strong> ${visitType===1?'زيارة ميدانية':'مراجعة كاميرات'}<br><strong>الدرجة النهائية:</strong> ${finalSc}/100<br><strong>التقدير:</strong> ${gradeText}<br><strong>حالة Upselling:</strong> ${upsellingLabel}<br><br>${sectionsHtml}<br><strong>ملاحظات:</strong><br>${notes}</div>`;
+    element.style.width='794px'; element.style.background='white'; element.style.padding='32px'; element.style.fontFamily='Cairo'; element.dir='rtl';
+    element.innerHTML=`
+      <div style="text-align: center; margin-bottom: 24px;">
+        <img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" style="height: 70px; margin-bottom: 12px;">
+        <h1 style="color: #1e293b; margin: 0;">شركة نايف للأغذية</h1>
+        <h2 style="color: #1976D2; font-size: 18px; margin-top: 6px;">تقرير العميل الخفي · Mystery Shopper Report</h2>
+      </div>
+      <div style="background: #f8fafc; padding: 20px; border-radius: 20px; margin-bottom: 24px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;">
+          <div><span style="color:#5f6c80;">الفرع:</span> <strong>${branch}</strong></div>
+          <div><span style="color:#5f6c80;">المقيّم:</span> <strong>${evaluator}</strong></div>
+          <div><span style="color:#5f6c80;">التاريخ:</span> <strong>${date}</strong></div>
+          <div><span style="color:#5f6c80;">الوقت:</span> <strong>${time}</strong></div>
+          <div><span style="color:#5f6c80;">نوع التقييم:</span> <strong>${visitType===1?'زيارة ميدانية':'مراجعة كاميرات'}</strong></div>
+        </div>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <div style="background: linear-gradient(135deg, #fef8e7, white); padding: 20px; border-radius: 20px; text-align: center; border-top: 4px solid #1976D2;">
+          <div style="font-size: 14px; color: #5f6c80;">النتيجة النهائية الإجمالية</div>
+          <div style="font-size: 56px; font-weight: 900; background: linear-gradient(135deg, #d32f2f, #1976D2); -webkit-background-clip: text; background-clip: text; color: transparent;">${finalSc}</div>
+          <div style="font-size: 14px;">/ 100</div>
+          <div style="margin-top: 8px; display: inline-block; padding: 6px 18px; border-radius: 40px; background: #eef2fc; color: #1976D2; font-weight: bold;">${gradeText}</div>
+        </div>
+      </div>
+      <div><h3 style="margin-bottom: 16px;">📊 تفاصيل التقييم</h3>${sectionsHtml}</div>
+      <div style="margin-top: 24px; padding: 16px; background: #f1f5f9; border-radius: 16px;">
+        <div><strong>🚨 ملاحظات المقيّم</strong></div>
+        <div style="margin-top: 8px; white-space: pre-wrap;">${notes}</div>
+      </div>
+      <div style="margin-top: 28px; text-align: center; font-size: 11px; color: #94a3b8;">تم إنشاء التقرير بواسطة نظام العميل الخفي · مطاعم نايف</div>
+    `;
     document.body.appendChild(element);
     let canvas=await html2canvas(element,{scale:2, backgroundColor:'#ffffff'});
     let imgData=canvas.toDataURL('image/png');
@@ -510,8 +535,8 @@ window.exportEvaluationPDF = async function(){
     pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
     pdf.save(`Mystery_${branch}_${date}.pdf`);
     document.body.removeChild(element);
-    showToast('✅ تم تصدير PDF');
-  } catch(e){ console.error(e); showToast('خطأ في التصدير'); }
+    showToast('✅ تم تصدير PDF بنجاح');
+  } catch(e){ console.error(e); showToast('خطأ في تصدير PDF'); }
 };
 
 window.exportDashboardPDF = async function(){
@@ -520,11 +545,16 @@ window.exportDashboardPDF = async function(){
   let branchStats=[...new Map(records.map(r=>[r.branch,r])).keys()].map(b=>{
     let br=records.filter(r=>r.branch===b);
     let sco=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length);
-    return `<li>${b}: ${sco}/100 (${br.length} زيارة)</li>`;
+    return `<li style="margin-bottom: 8px;">${b}: ${sco}/100 (${br.length} زيارة)</li>`;
   }).join('');
   let element=document.createElement('div');
-  element.style.width='794px'; element.style.background='white'; element.style.padding='24px'; element.dir='rtl';
-  element.innerHTML=`<div style="text-align:center"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" height="60"><h2>لوحة معلومات الفروع - نايف</h2><p>إجمالي الزيارات: ${records.length} | متوسط الدرجة: ${avg}/100</p></div><ul>${branchStats}</ul>`;
+  element.style.width='794px'; element.style.background='white'; element.style.padding='32px'; element.dir='rtl';
+  element.innerHTML=`
+    <div style="text-align:center; margin-bottom:24px;"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" height="70"><h2 style="color:#1e293b;">شركة نايف للأغذية</h2><h3 style="color:#1976D2;">لوحة معلومات الفروع</h3></div>
+    <div style="background:#f8fafc; padding:16px; border-radius:20px; margin-bottom:24px; display:flex; justify-content:space-around;"><div><strong>إجمالي الزيارات</strong><br>${records.length}</div><div><strong>المتوسط العام</strong><br>${avg}/100</div></div>
+    <ul style="list-style:none; padding:0;">${branchStats}</ul>
+    <div style="margin-top:28px; text-align:center; font-size:11px; color:#94a3b8;">نظام الجودة · مطاعم نايف</div>
+  `;
   document.body.appendChild(element);
   let canvas=await html2canvas(element,{scale:2});
   let {jsPDF}=window.jspdf;
@@ -537,7 +567,6 @@ window.exportDashboardPDF = async function(){
   showToast('✅ تم تصدير لوحة المعلومات');
 };
 
-// WhatsApp
 window.sendWA = function(){
   let branch=document.getElementById('branchName').value.trim()||'—';
   let grand=document.getElementById('finalNum').innerText;
@@ -557,7 +586,6 @@ window.sendDashWA = function(){
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
 };
 
-// Dashboard render
 window.renderDashboard = function(){
   if(!records.length){ document.getElementById('kpiGrid').innerHTML='<div class="empty">لا توجد بيانات</div>'; document.getElementById('chart-container').innerHTML='<div class="empty">لا توجد بيانات</div>'; document.getElementById('upsell-chart').innerHTML='<div class="empty">لا توجد بيانات</div>'; return; }
   let bmap={};
@@ -606,7 +634,6 @@ window.switchTab = function(tab){
   document.getElementById('scrollArea').scrollTop=0;
 };
 
-// Set default datetime and init
 function initDateTime(){
   let now=new Date();
   document.getElementById('visitDate').value=now.toISOString().slice(0,10);
@@ -615,15 +642,12 @@ function initDateTime(){
   document.getElementById('visitTime').value=`${hours}:${mins}`;
 }
 
-// Event binding
 document.addEventListener('DOMContentLoaded',()=>{
   loadRecords();
   buildForm();
   recalc();
-  buildAlphabetFilter();
-  updateBranchDatalist();
+  initBranchSearch();
   initDateTime();
-  // button events
   document.getElementById('saveBtn').onclick=()=>window.saveRecord();
   document.getElementById('waBtn').onclick=()=>window.sendWA();
   document.getElementById('pdfBtn').onclick=()=>window.exportEvaluationPDF();
@@ -631,9 +655,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('dashWaBtn').onclick=()=>window.sendDashWA();
   document.getElementById('dashPdfBtn').onclick=()=>window.exportDashboardPDF();
   document.getElementById('clearAllBtn').onclick=()=>window.clearAll();
-  // initial UI updates
-  if(window.renderDashboard) window.renderDashboard();
-  if(window.renderRecords) window.renderRecords();
+  renderDashboard();
+  renderRecords();
 });
 </script>
 </body>
