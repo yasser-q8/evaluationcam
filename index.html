@@ -8,9 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#e9f0f5">
 <title>العميل الخفي · Naif Mystery Shopper</title>
-<!-- Logo & Favicon -->
 <link rel="icon" href="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" type="image/jpeg">
-<!-- Fonts & Libraries -->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -53,7 +51,6 @@ body{
   justify-content:space-between;
   padding:0 16px;
   flex-shrink:0;
-  position:relative;
   z-index:50;
   color:white;
 }
@@ -62,7 +59,6 @@ body{
 .header-title{font-size:15px;font-weight:900;line-height:1.3;}
 .header-title span{color:#ffd966;}
 .header-sub{font-size:9px;opacity:0.9;direction:ltr;}
-
 .ring-wrap{position:relative;width:46px;height:46px;flex-shrink:0;}
 .ring-bg,.ring-fill{fill:none;stroke-width:3;}
 .ring-bg{stroke:rgba(255,255,255,0.3);}
@@ -77,7 +73,6 @@ body{
   padding-bottom:calc(var(--nav-h) + var(--safe-bottom) + 8px);
 }
 .scroll-area::-webkit-scrollbar{display:none;}
-/* pages */
 .page{display:none;animation:fadeIn .2s ease;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
@@ -103,7 +98,7 @@ body{
 .nav-lbl{font-size:9px;font-weight:700;}
 .nav-dot{width:4px;height:4px;border-radius:50%;background:var(--blue);margin-top:2px;opacity:0;}
 .nav-item.active .nav-dot{opacity:1;}
-/* Cards & Sections */
+/* Cards */
 .info-card, .sec-pill, .notes-card, .final-box, .chart-card, .rec-card{
   background:var(--card-white);
   border:1px solid var(--border-light);
@@ -171,7 +166,6 @@ body{
 .pbar{flex:1;height:6px;background:#cddfea;border-radius:4px;}
 .pfill{height:100%;background:linear-gradient(90deg,var(--red),var(--blue));border-radius:4px;}
 .sec-total-val{font-size:15px;font-weight:900;color:var(--blue);}
-/* upselling */
 .up-wrap{
   background:rgba(25,118,210,0.04);
   border:1px solid var(--blue);
@@ -188,7 +182,6 @@ body{
   margin-bottom:8px;cursor:pointer;
   transition:all .1s;
 }
-.up-opt:active{transform:scale(.98);}
 .up-opt.sg{border-color:var(--green);background:#e8f5e9;}
 .up-opt.sw{border-color:#f57c00;background:#fff3e0;}
 .up-opt.sn{border-color:var(--red);background:var(--red-light);}
@@ -197,7 +190,6 @@ body{
 .up-opt.sw .udot{border-color:#f57c00;background:#f57c00;}
 .up-opt.sn .udot{border-color:var(--red);background:var(--red);}
 .up-opt-ar{font-size:13px;font-weight:600;}
-/* info fields */
 .field label{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:3px;display:block;}
 .field input, .field select, .field textarea{
   background:var(--gray-bg);
@@ -217,13 +209,14 @@ body{
   border:1.5px solid var(--border-light);
   border-radius:16px;
   padding:12px;
-  display:flex;align-items:center;gap:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
   cursor:pointer;
 }
 .type-opt.sel{border-color:var(--blue);background:#eef5fc;}
 .tdot{width:18px;height:18px;border-radius:50%;border:2px solid var(--text-muted);}
 .type-opt.sel .tdot{border-color:var(--blue);background:var(--blue);}
-/* final box */
 .final-box{background:linear-gradient(135deg,#fef8e7, white);border-top:4px solid var(--blue);}
 .final-num{font-size:68px;font-weight:900;background:linear-gradient(135deg,var(--red),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent;}
 .grade-badge{display:inline-block;padding:8px 20px;border-radius:40px;font-weight:800;}
@@ -231,7 +224,6 @@ body{
 .gV{border:2px solid var(--green);color:var(--green);background:#e8f5e9;}
 .gG{border:2px solid var(--blue);color:var(--blue-dark);background:#e3f2fd;}
 .gI{border:2px solid var(--red);color:var(--red);background:var(--red-light);}
-/* actions */
 .actions{margin:12px 12px 0;display:flex;gap:10px;}
 .act-btn{
   flex:1;height:52px;border-radius:18px;
@@ -243,12 +235,11 @@ body{
 .act-wa{background:#25D366;color:white;}
 .act-pdf{background:#f57c00;color:white;}
 .act-reset{background:var(--gray-bg);border:1px solid var(--border-light);color:var(--red);font-size:18px;}
-/* alphabet filter */
 .alphabet-bar{
   display:flex;
   flex-wrap:wrap;
   gap:6px;
-  margin:0 12px 10px 12px;
+  margin:0 0 10px 0;
   justify-content:center;
 }
 .alpha-btn{
@@ -264,7 +255,7 @@ body{
 }
 .alpha-btn:active{background:var(--blue);color:white;transform:scale(.95);}
 .branch-suggest{
-  margin:4px 12px 8px;
+  margin:4px 0 8px;
   display:flex;
   flex-wrap:wrap;
   gap:8px;
@@ -276,10 +267,7 @@ body{
   font-size:12px;
   border:1px solid var(--border-light);
   cursor:pointer;
-  transition:all .1s;
 }
-.suggest-chip:active{background:var(--blue);color:white;}
-/* dashboard charts */
 .chart-row{
   display:flex;
   align-items:center;
@@ -291,7 +279,6 @@ body{
 .chart-fill{height:100%;border-radius:20px;display:flex;align-items:center;justify-content:flex-start;padding-right:8px;color:white;font-weight:bold;font-size:12px;}
 .dist-bar{display:flex;gap:2px;height:24px;border-radius:12px;overflow:hidden;}
 .dist-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;color:white;}
-/* empty */
 .empty{text-align:center;padding:40px 20px;color:var(--text-muted);}
 .toast{
   position:fixed;top:75px;left:50%;transform:translateX(-50%);
@@ -299,6 +286,8 @@ body{
   font-weight:700;z-index:200;opacity:0;transition:0.2s;pointer-events:none;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;}
+.kpi-card{background:white;border-radius:16px;padding:12px;text-align:center;border:1px solid var(--border-light);}
 </style>
 </head>
 <body>
@@ -328,73 +317,120 @@ body{
       <div class="info-card-body" style="padding:16px;">
         <div class="field"><label>اسم الفرع · Branch Name</label><input type="text" id="branchName" placeholder="اكتب أو اختر فرعاً" autocomplete="off" list="branches-list"></div>
         <datalist id="branches-list"></datalist>
-        <!-- alphabet filter + suggestions -->
         <div class="alphabet-bar" id="alphabetBar"></div>
         <div id="branchSuggestions" class="branch-suggest"></div>
         <div class="field"><label>اسم المقيّم · Evaluator</label><input type="text" id="evaluatorName"></div>
         <div class="fields-row" style="display:flex;gap:12px;"><div class="field" style="flex:1"><label>التاريخ</label><input type="date" id="visitDate"></div><div class="field" style="flex:1"><label>الوقت</label><input type="time" id="visitTime"></div></div>
-        <div class="field"><label>نوع التقييم</label><div class="type-row"><div class="type-opt sel" id="tOpt1" onclick="selType(1)"><span class="tdot"></span><div><div class="type-opt-ar">زيارة ميدانية</div><div class="type-opt-en">Dine-in</div></div></div><div class="type-opt" id="tOpt2" onclick="selType(2)"><span class="tdot"></span><div><div class="type-opt-ar">مراجعة كاميرات</div><div class="type-opt-en">Camera Review</div></div></div></div></div>
+        <div class="field"><label>نوع التقييم</label><div class="type-row"><div class="type-opt sel" id="tOpt1" onclick="window.selType(1)"><span class="tdot"></span><div><div class="type-opt-ar">زيارة ميدانية</div><div class="type-opt-en">Dine-in</div></div></div><div class="type-opt" id="tOpt2" onclick="window.selType(2)"><span class="tdot"></span><div><div class="type-opt-ar">مراجعة كاميرات</div><div class="type-opt-en">Camera Review</div></div></div></div></div>
       </div>
     </div>
     <div id="sections-container"></div>
     <div class="notes-card"><div class="info-card-head" style="padding:14px 16px;display:flex;gap:10px;"><span>🚨</span><div><div style="font-weight:800;">ملاحظات المقيّم</div><div style="font-size:10px;">Evaluator Notes</div></div></div><div class="info-card-body"><textarea id="notesText" rows="3" style="width:100%;background:var(--gray-bg);border-radius:16px;padding:12px;" placeholder="تفاصيل المخالفات / الملاحظات ..."></textarea></div></div>
     <div class="final-box"><div class="final-lbl" style="font-size:12px;">التقييم النهائي الإجمالي</div><div class="final-num" id="finalNum">0</div><div>/ 100</div><div class="grade-badge gI" id="gradeBadge">⚠️ يحتاج تحسين</div></div>
     <div class="actions">
-      <button class="act-btn act-save" onclick="saveRecord()">💾 حفظ</button>
-      <button class="act-btn act-wa" onclick="sendWA()">📱 واتساب</button>
-      <button class="act-btn act-pdf" onclick="exportEvaluationPDF()">📄 PDF</button>
-      <button class="act-btn act-reset" onclick="resetForm()">↺</button>
+      <button class="act-btn act-save" id="saveBtn">💾 حفظ</button>
+      <button class="act-btn act-wa" id="waBtn">📱 واتساب</button>
+      <button class="act-btn act-pdf" id="pdfBtn">📄 PDF</button>
+      <button class="act-btn act-reset" id="resetBtn">↺</button>
     </div>
     <div style="height:10px;"></div>
   </div>
   <!-- DASHBOARD PAGE -->
   <div class="page" id="page-dash">
-    <div class="kpi-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;"></div>
+    <div class="kpi-grid" id="kpiGrid"></div>
     <div class="chart-card"><div class="chart-head" style="padding:14px;">🏆 ترتيب الفروع</div><div class="chart-body" id="chart-container"></div></div>
     <div class="chart-card"><div class="chart-head" style="padding:14px;">📊 Upselling توزيع</div><div class="chart-body" id="upsell-chart"></div></div>
-    <button class="dash-send" onclick="sendDashWA()" style="margin:10px 12px;background:#25D366;border:none;border-radius:20px;height:48px;">📢 إرسال تقرير الفروع واتساب</button>
-    <button class="clear-btn" onclick="exportDashboardPDF()" style="margin:0 12px 12px;background:var(--blue);color:white;border:none;border-radius:20px;height:44px;">📑 تصدير لوحة المعلومات PDF</button>
+    <button class="act-btn act-wa" id="dashWaBtn" style="margin:10px 12px;background:#25D366;">📢 إرسال تقرير الفروع واتساب</button>
+    <button class="act-btn act-pdf" id="dashPdfBtn" style="margin:0 12px 12px;background:var(--blue);">📑 تصدير لوحة المعلومات PDF</button>
   </div>
   <!-- RECORDS PAGE -->
-  <div class="page" id="page-records"><div class="filter-bar" style="display:flex;gap:8px;padding:12px;"><input type="text" id="filterBranch" placeholder="🔍 بحث بالفرع" oninput="renderRecords()"><select id="filterGrade" onchange="renderRecords()"><option value="">كل التقديرات</option><option value="E">ممتاز</option><option value="V">جيد جداً</option><option value="G">جيد</option><option value="I">يحتاج تحسين</option></select></div><div class="rec-card"><div class="rec-head" style="padding:12px;display:flex;justify-content:space-between;"><span>🗂️ سجل الزيارات</span><span id="rec-count"></span></div><div id="records-list"></div></div><button class="clear-btn" onclick="clearAll()" style="margin:12px;background:var(--gray-bg);border:1px solid var(--red);color:var(--red);">🗑️ حذف كل السجلات</button></div>
+  <div class="page" id="page-records"><div class="filter-bar" style="display:flex;gap:8px;padding:12px;"><input type="text" id="filterBranch" placeholder="🔍 بحث بالفرع" oninput="window.renderRecords()"><select id="filterGrade" onchange="window.renderRecords()"><option value="">كل التقديرات</option><option value="E">ممتاز</option><option value="V">جيد جداً</option><option value="G">جيد</option><option value="I">يحتاج تحسين</option></select></div><div class="rec-card"><div class="rec-head" style="padding:12px;display:flex;justify-content:space-between;"><span>🗂️ سجل الزيارات</span><span id="rec-count"></span></div><div id="records-list"></div></div><button class="clear-btn" id="clearAllBtn" style="margin:12px;background:var(--gray-bg);border:1px solid var(--red);color:var(--red);padding:12px;border-radius:20px;width:calc(100% - 24px);">🗑️ حذف كل السجلات</button></div>
 </div>
-<div class="bottom-nav"><div class="nav-item active" id="nav-form" onclick="switchTab('form')"><span class="nav-icon">📋</span><span class="nav-lbl">التقييم</span><div class="nav-dot"></div></div><div class="nav-item" id="nav-dash" onclick="switchTab('dash')"><span class="nav-icon">📊</span><span class="nav-lbl">الفروع</span><div class="nav-dot"></div></div><div class="nav-item" id="nav-records" onclick="switchTab('records')"><span class="nav-icon">🗂️</span><span class="nav-lbl">السجلات</span><div class="nav-dot"></div></div></div>
+<div class="bottom-nav"><div class="nav-item active" id="nav-form" onclick="window.switchTab('form')"><span class="nav-icon">📋</span><span class="nav-lbl">التقييم</span><div class="nav-dot"></div></div><div class="nav-item" id="nav-dash" onclick="window.switchTab('dash')"><span class="nav-icon">📊</span><span class="nav-lbl">الفروع</span><div class="nav-dot"></div></div><div class="nav-item" id="nav-records" onclick="window.switchTab('records')"><span class="nav-icon">🗂️</span><span class="nav-lbl">السجلات</span><div class="nav-dot"></div></div></div>
+
 <script>
-// =============== BRANCHES MASTER (from provided list) =============
+// =============== MASTER BRANCH LIST (from user data) =============
 const BRANCHES_DATA = [
-  {ar:"مجمع 360",en:"360 Mall"},{ar:"جمعية أبو فطيرة",en:"Abu Fatira Co-Op"},{ar:"ابو حليفة",en:"Abu Halifa"},{ar:"الاحمدي الصناعية",en:"Ahmadi Ind"},{ar:"الري",en:"Al Rai"},{ar:"مجمع الكوت",en:"AlKout"},{ar:"مجمع الأفنيوز",en:"Avenues"},{ar:"الضباعية",en:"Dabaya"},{ar:"الدسمة",en:"Dasma"},{ar:"الفحيحيل",en:"Fahaheel"},{ar:"الفيحاء",en:"Faiha"},{ar:"الفروانية",en:"Farwaniya"},{ar:"الفنطاس",en:"Fintas"},{ar:"هدية",en:"Hadiya"},{ar:"حولي بارك",en:"Hawally Park"},{ar:"جابر الأحمد",en:"Jaber Al-Ahmed"},{ar:"الجابرية 1 - تكا",en:"Jabriya Tikka"},{ar:"الجابرية 2 - بنت الديك",en:"Jabriya BD"},{ar:"الجهراء 2 - الصناعية",en:"Jahra Ind"},{ar:"الجهراء ليالي الشرق",en:"Jahra Layaly"},{ar:"الجهراء مكة",en:"Jahra Makkah"},{ar:"الجهراء 1 - الزويخ",en:"Jahra Duwaik"},{ar:"جليب الشيوخ",en:"Jleeb"},{ar:"كبد",en:"Kabed"},{ar:"الخيران أويا",en:"Khairan Oia"},{ar:"مجمع الخيران",en:"Khairan Mall"},{ar:"خيطان الجديدة",en:"Khaitan New"},{ar:"الخيول",en:"Khioul"},{ar:"المنقف",en:"Mangaf"},{ar:"مجمع المارينا",en:"Marina Mall"},{ar:"مشرف",en:"Mishref"},{ar:"العارضية الجديدة",en:"New Ardiya"},{ar:"الفروانية الجديدة",en:"New Farwaniya"},{ar:"القادسية",en:"Qadsiya"},{ar:"القيروان",en:"Qairawan"},{ar:"القرين",en:"Qurain"},{ar:"الرقعي",en:"Reggai"},{ar:"الرحاب",en:"Rehab"},{ar:"الرقة",en:"Riqqa"},{ar:"صباح الأحمد",en:"Sabah al Ahmed"},{ar:"صباح السالم",en:"Sabah Salem"},{ar:"صباح السالم العرين",en:"Sabah-Salem Alareen"},{ar:"السالمية 1 - النافورة",en:"Salmiya Nafura"},{ar:"السالمية 2 - السندباد",en:"Salmiya Sindhibad"},{ar:"السالمية 3 - شارع البحرين",en:"Salmiya Bahrain"},{ar:"السالمية 4 - سيد ياسين",en:"Salmiya Sayed Yasin"},{ar:"سلوى",en:"Salwa"},{ar:"الشرق",en:"Sharq"},{ar:"الشهداء",en:"Shuhada"},{ar:"الشويخ",en:"Shuwaikh"},{ar:"أسواق القرين",en:"Souq Qurain"},{ar:"جمعية الصليبية",en:"Sulaibiya CO-OP"},{ar:"الصليبخات",en:"Sulebhikat"},{ar:"الصليبية",en:"Suleibiya"},{ar:"الوفرة",en:"Wafra"},{ar:"غرب ابو فطيرة",en:"West Abu Fatira"},{ar:"الزهراء",en:"Zahra"}
+  "مجمع 360","جمعية أبو فطيرة","ابو حليفة","الاحمدي الصناعية","الري","مجمع الكوت","مجمع الأفنيوز","الضباعية","الدسمة","الفحيحيل","الفيحاء","الفروانية","الفنطاس","هدية","حولي بارك","جابر الأحمد","الجابرية 1 - تكا","الجابرية 2 - بنت الديك","الجهراء 2 - الصناعية","الجهراء ليالي الشرق","الجهراء مكة","الجهراء 1 - الزويخ","جليب الشيوخ","كبد","الخيران أويا","مجمع الخيران","خيطان الجديدة","الخيول","المنقف","مجمع المارينا","مشرف","العارضية الجديدة","الفروانية الجديدة","القادسية","القيروان","القرين","الرقعي","الرحاب","الرقة","صباح الأحمد","صباح السالم","صباح السالم العرين","السالمية 1 - النافورة","السالمية 2 - السندباد","السالمية 3 - شارع البحرين","السالمية 4 - سيد ياسين","سلوى","الشرق","الشهداء","الشويخ","أسواق القرين","جمعية الصليبية","الصليبخات","الصليبية","الوفرة","غرب ابو فطيرة","الزهراء"
 ];
-const ALL_BRANCH_NAMES = BRANCHES_DATA.map(b=>b.ar);
+const ALL_BRANCHES = [...BRANCHES_DATA];
 // ================== GLOBALS ===================
-let scores={}, upsellVal='', visitType=1, records=[];
+let scores = {};
+let upsellVal = '';
+let visitType = 1;
+let records = [];
+
 const SECTIONS = [
   { key:'s1', ar:'الكاشير وخدمة العملاء', en:'Cashier & Customer Service', icon:'🎯', max:40, items:[{id:'c1_1',ar:'الترحيب بابتسامة',en:'Welcome smile',max:5},{id:'c1_2',ar:'التواصل البصري',en:'Eye contact',max:5},{id:'c1_3',ar:'تأكيد الطلب',en:'Order confirm',max:5},{id:'c1_4',ar:'سرعة أخذ الطلب',en:'Speed',max:5},{id:'c1_5',ar:'عرض منتج إضافي',en:'Upselling offer',max:10},{id:'c1_6',ar:'شرح العروض',en:'Explain offers',max:5},{id:'c1_7',ar:'شكر العميل',en:'Thank you',max:5}] },
   { key:'s2', ar:'التشغيل والتجهيز', en:'Operations', icon:'🍔', max:25, items:[{id:'c2_1',ar:'سرعة التجهيز',en:'Prep speed',max:5},{id:'c2_2',ar:'تسليم مرتب',en:'Neat delivery',max:5},{id:'c2_3',ar:'الزي الرسمي',en:'Uniform',max:5},{id:'c2_4',ar:'نظافة منطقة العمل',en:'Clean work area',max:5},{id:'c2_5',ar:'قفازات وسلامة',en:'Gloves safety',max:5}] },
   { key:'s3', ar:'النظافة والانضباط', en:'Cleanliness', icon:'🧼', max:15, items:[{id:'c3_1',ar:'نظافة الكاونتر',en:'Counter',max:5},{id:'c3_2',ar:'نظافة الأرضيات',en:'Floor',max:5},{id:'c3_3',ar:'مظهر الموظفين',en:'Appearance',max:5}] },
   { key:'s4', ar:'تجربة العميل', en:'Experience', icon:'😊', max:20, items:[{id:'c4_1',ar:'احترافية',en:'Professionalism',max:5},{id:'c4_2',ar:'الهدوء أثناء الزحمة',en:'Calm',max:5},{id:'c4_3',ar:'اهتمام بالعميل',en:'Attentiveness',max:5},{id:'c4_4',ar:'رضا العميل',en:'Satisfaction',max:5}] }
 ];
-function loadRecords(){ try{ records=JSON.parse(localStorage.getItem('naif_ms')||'[]'); }catch(e){records=[];} }
-function saveRecords(){ localStorage.setItem('naif_ms',JSON.stringify(records)); updateBranchDatalist(); }
-function showToast(m){ let t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000);}
+
+// Helper functions
+function showToast(msg){ let t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+function saveRecordsToLocal(){ localStorage.setItem('naif_ms',JSON.stringify(records)); updateBranchDatalist(); }
+function loadRecords(){ try{ records=JSON.parse(localStorage.getItem('naif_ms')||'[]'); }catch(e){ records=[]; } }
+
+function updateBranchDatalist(){
+  let dl=document.getElementById('branches-list');
+  dl.innerHTML=ALL_BRANCHES.map(b=>`<option value="${b}">`).join('');
+}
+
+function buildAlphabetFilter(){
+  let letters=['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي'];
+  let bar=document.getElementById('alphabetBar');
+  bar.innerHTML=letters.map(l=>`<button class="alpha-btn" data-letter="${l}">${l}</button>`).join('');
+  document.querySelectorAll('.alpha-btn').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      let letter=e.target.getAttribute('data-letter');
+      let filtered=ALL_BRANCHES.filter(b=>b.startsWith(letter));
+      let suggDiv=document.getElementById('branchSuggestions');
+      if(filtered.length){
+        suggDiv.innerHTML=filtered.slice(0,12).map(b=>`<div class="suggest-chip" onclick="document.getElementById('branchName').value='${b.replace(/'/g,"\\'")}'; suggDiv.innerHTML='';">${b}</div>`).join('');
+      } else suggDiv.innerHTML='<div class="suggest-chip">لا توجد فروع</div>';
+    });
+  });
+  document.addEventListener('click',function(e){ if(!e.target.closest('.alpha-btn') && !e.target.closest('.suggest-chip')) document.getElementById('branchSuggestions').innerHTML=''; });
+}
+
 function buildForm(){
   const container=document.getElementById('sections-container');
-  SECTIONS.forEach(sec=>{ sec.items.forEach(it=>scores[it.id]=0);
+  container.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    sec.items.forEach(it=>{ scores[it.id]=0; });
     let div=document.createElement('div');div.className='sec-pill';
-    div.innerHTML=`<div class="sec-pill-head" onclick="toggleSec('${sec.key}')"><div class="sec-pill-icon" style="background:#eef2fc;">${sec.icon}</div><div class="sec-pill-titles"><div class="sec-pill-ar">${sec.ar}</div><div class="sec-pill-en">${sec.en}</div></div><div class="sec-pill-badge" id="badge-${sec.key}">0/${sec.max}</div></div><div class="sec-pill-body open" id="body-${sec.key}"><div id="crit-${sec.key}"></div>${sec.key==='s1'?`<div class="up-wrap"><div class="up-header-ar">⭐ مؤشر Upselling</div><div class="up-opt" id="uUp1" onclick="selUpsell('good')"><span class="udot"></span><div><div class="up-opt-ar">ممتاز ✅</div></div></div><div class="up-opt" id="uUp2" onclick="selUpsell('weak')"><span class="udot"></span><div><div class="up-opt-ar">ضعيف ⚠️</div></div></div><div class="up-opt" id="uUp3" onclick="selUpsell('none')"><span class="udot"></span><div><div class="up-opt-ar">لم يتم ❌</div></div></div></div>`:``}<div class="sec-total"><span class="sec-total-lbl">الإجمالي</span><div class="pbar"><div class="pfill" id="prog-${sec.key}"></div></div><span class="sec-total-val" id="total-${sec.key}">0/${sec.max}</span></div></div>`;
+    div.innerHTML=`<div class="sec-pill-head" onclick="window.toggleSec('${sec.key}')"><div class="sec-pill-icon" style="background:#eef2fc;">${sec.icon}</div><div class="sec-pill-titles"><div class="sec-pill-ar">${sec.ar}</div><div class="sec-pill-en">${sec.en}</div></div><div class="sec-pill-badge" id="badge-${sec.key}">0/${sec.max}</div></div><div class="sec-pill-body open" id="body-${sec.key}"><div id="crit-${sec.key}"></div>${sec.key==='s1'?`<div class="up-wrap"><div class="up-header-ar">⭐ مؤشر Upselling</div><div class="up-opt" id="uUp1" onclick="window.selUpsell('good')"><span class="udot"></span><div><div class="up-opt-ar">ممتاز ✅</div></div></div><div class="up-opt" id="uUp2" onclick="window.selUpsell('weak')"><span class="udot"></span><div><div class="up-opt-ar">ضعيف ⚠️</div></div></div><div class="up-opt" id="uUp3" onclick="window.selUpsell('none')"><span class="udot"></span><div><div class="up-opt-ar">لم يتم ❌</div></div></div></div>`:``}<div class="sec-total"><span class="sec-total-lbl">الإجمالي</span><div class="pbar"><div class="pfill" id="prog-${sec.key}"></div></div><span class="sec-total-val" id="total-${sec.key}">0/${sec.max}</span></div></div>`;
     container.appendChild(div);
     let critDiv=div.querySelector('#crit-'+sec.key);
-    sec.items.forEach(it=>{ let row=document.createElement('div');row.className='crit';
-      row.innerHTML=`<div class="crit-texts"><div class="crit-ar">${it.ar}</div><div class="crit-en">${it.en}</div><div class="crit-bar-wrap"><div class="crit-bar-fill" id="bar-${it.id}"></div></div><div class="crit-max">/ ${it.max}</div></div><div class="crit-ctrl"><button class="crit-btn" onclick="chScore('${it.id}',${it.max},-1)">−</button><span class="crit-val" id="val-${it.id}">0</span><button class="crit-btn" onclick="chScore('${it.id}',${it.max},1)">+</button></div>`;
+    sec.items.forEach(it=>{
+      let row=document.createElement('div');row.className='crit';
+      row.innerHTML=`<div class="crit-texts"><div class="crit-ar">${it.ar}</div><div class="crit-en">${it.en}</div><div class="crit-bar-wrap"><div class="crit-bar-fill" id="bar-${it.id}"></div></div><div class="crit-max">/ ${it.max}</div></div><div class="crit-ctrl"><button class="crit-btn" onclick="window.chScore('${it.id}',${it.max},-1)">−</button><span class="crit-val" id="val-${it.id}">0</span><button class="crit-btn" onclick="window.chScore('${it.id}',${it.max},1)">+</button></div>`;
       critDiv.appendChild(row);
     });
   });
 }
-function toggleSec(k){ document.getElementById('body-'+k).classList.toggle('open'); }
-function chScore(id,max,d){ scores[id]=Math.min(max,Math.max(0,scores[id]+d)); document.getElementById('val-'+id).innerText=scores[id]; document.getElementById('bar-'+id).style.width=(scores[id]/max*100)+'%'; recalc(); }
+
+window.toggleSec = function(key){ document.getElementById('body-'+key).classList.toggle('open'); };
+window.chScore = function(id,max,d){
+  scores[id]=Math.min(max,Math.max(0,(scores[id]||0)+d));
+  document.getElementById('val-'+id).innerText=scores[id];
+  let fill=document.getElementById('bar-'+id);
+  if(fill) fill.style.width=(scores[id]/max*100)+'%';
+  recalc();
+};
 function recalc(){
   let grand=0;
-  SECTIONS.forEach(sec=>{ let tot=0; sec.items.forEach(it=>tot+=scores[it.id]); document.getElementById('badge-'+sec.key).innerText=tot+'/'+sec.max; document.getElementById('total-'+sec.key).innerText=tot+'/'+sec.max; document.getElementById('prog-'+sec.key).style.width=(tot/sec.max*100)+'%'; grand+=tot; });
-  document.getElementById('finalNum').innerText=grand; document.getElementById('headerScore').innerText=grand;
+  SECTIONS.forEach(sec=>{
+    let tot=0; sec.items.forEach(it=>tot+=scores[it.id]);
+    document.getElementById('badge-'+sec.key).innerText=tot+'/'+sec.max;
+    document.getElementById('total-'+sec.key).innerText=tot+'/'+sec.max;
+    let prog=document.getElementById('prog-'+sec.key);
+    if(prog) prog.style.width=(tot/sec.max*100)+'%';
+    grand+=tot;
+  });
+  document.getElementById('finalNum').innerText=grand;
+  document.getElementById('headerScore').innerText=grand;
   let circ=125.66; document.getElementById('ringFill').style.strokeDashoffset=circ-(grand/100*circ);
   let gr=document.getElementById('gradeBadge');
   if(grand>=90){gr.className='grade-badge gE';gr.innerHTML='⭐ ممتاز · Excellent';}
@@ -402,38 +438,203 @@ function recalc(){
   else if(grand>=70){gr.className='grade-badge gG';gr.innerHTML='👍 جيد · Good';}
   else{gr.className='grade-badge gI';gr.innerHTML='⚠️ يحتاج تحسين · Needs Improvement';}
 }
-function selUpsell(v){ upsellVal=v; [['uUp1','good','sg'],['uUp2','weak','sw'],['uUp3','none','sn']].forEach(([id,k,cls])=>{ document.getElementById(id).className='up-opt'+(v===k?' '+cls:''); }); }
-function selType(n){ visitType=n; document.getElementById('tOpt1').classList.toggle('sel',n===1); document.getElementById('tOpt2').classList.toggle('sel',n===2); }
+window.selUpsell = function(v){ upsellVal=v; ['uUp1','uUp2','uUp3'].forEach((id,i)=>{ let cls=['sg','sw','sn'][i]; let elem=document.getElementById(id); if(elem) elem.className='up-opt'+(v===['good','weak','none'][i]?' '+cls:''); }); };
+window.selType = function(n){ visitType=n; document.getElementById('tOpt1').classList.toggle('sel',n===1); document.getElementById('tOpt2').classList.toggle('sel',n===2); };
 function getGrade(g){ return g>=90?'E':g>=80?'V':g>=70?'G':'I'; }
-function saveRecord(){
+
+// Save record
+window.saveRecord = function(){
   let branch=document.getElementById('branchName').value.trim();
   if(!branch){ showToast('⚠️ أدخل اسم الفرع'); return; }
   let grand=parseInt(document.getElementById('finalNum').innerText);
-  let sectionScores={}; SECTIONS.forEach(sec=>{ let t=0; sec.items.forEach(it=>t+=scores[it.id]); sectionScores[sec.key]=t;});
-  records.push({ id:Date.now(), branch:evaluator:document.getElementById('evaluatorName').value.trim(), date:document.getElementById('visitDate').value, time:document.getElementById('visitTime').value, type:visitType===1?'داخل المطعم':'كاميرات', score:grand, grade:getGrade(grand), upsell:upsellVal, notes:document.getElementById('notesText').value.trim(), sections:sectionScores });
-  saveRecords(); showToast(`✅ حفظ ${branch} (${grand}/100)`); updateBranchDatalist();
-}
-function resetForm(){ if(confirm('إعادة تعيين النموذج؟')){ SECTIONS.forEach(sec=>sec.items.forEach(it=>{ scores[it.id]=0; let v=document.getElementById('val-'+it.id); if(v)v.innerText='0'; let b=document.getElementById('bar-'+it.id); if(b)b.style.width='0%';})); selUpsell(''); recalc(); document.getElementById('branchName').value=''; document.getElementById('evaluatorName').value=''; document.getElementById('notesText').value=''; document.getElementById('visitTime').value=''; document.getElementById('visitDate').value=new Date().toISOString().slice(0,10); showToast('تم إعادة التعيين'); } }
-function updateBranchDatalist(){ let dl=document.getElementById('branches-list'); dl.innerHTML=ALL_BRANCH_NAMES.map(b=>`<option value="${b}">`).join(''); }
-// alphabet & suggestions
-function buildAlphabetFilter(){ let letters=['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي']; let bar=document.getElementById('alphabetBar'); bar.innerHTML=letters.map(l=>`<button class="alpha-btn" data-letter="${l}">${l}</button>`).join(''); Array.from(document.querySelectorAll('.alpha-btn')).forEach(btn=>btn.addEventListener('click',(e)=>{ let letter=e.target.getAttribute('data-letter'); let filtered=ALL_BRANCH_NAMES.filter(b=>b.startsWith(letter)||b.startsWith(letter)); let suggDiv=document.getElementById('branchSuggestions'); if(filtered.length){ suggDiv.innerHTML=filtered.slice(0,12).map(b=>`<div class="suggest-chip" onclick="document.getElementById('branchName').value='${b.replace(/'/g,"\\'")}'; suggDiv.innerHTML='';">${b}</div>`).join(''); } else suggDiv.innerHTML='<div class="suggest-chip">لا توجد فروع</div>'; })); document.addEventListener('click',function(e){ if(!e.target.closest('.alpha-btn') && !e.target.closest('.suggest-chip')) document.getElementById('branchSuggestions').innerHTML=''; }); }
+  let sectionScores={};
+  SECTIONS.forEach(sec=>{ let t=0; sec.items.forEach(it=>t+=scores[it.id]); sectionScores[sec.key]=t; });
+  records.push({
+    id:Date.now(), branch:branch,
+    evaluator:document.getElementById('evaluatorName').value.trim(),
+    date:document.getElementById('visitDate').value,
+    time:document.getElementById('visitTime').value,
+    type:visitType===1?'داخل المطعم':'كاميرات',
+    score:grand, grade:getGrade(grand),
+    upsell:upsellVal,
+    notes:document.getElementById('notesText').value.trim(),
+    sections:sectionScores
+  });
+  saveRecordsToLocal();
+  showToast(`✅ تم حفظ ${branch} (${grand}/100)`);
+  updateBranchDatalist();
+  if(window.renderRecords) window.renderRecords();
+  if(window.renderDashboard) window.renderDashboard();
+};
+
+window.resetForm = function(){
+  if(!confirm('إعادة تعيين النموذج؟')) return;
+  SECTIONS.forEach(sec=>sec.items.forEach(it=>{ scores[it.id]=0; let v=document.getElementById('val-'+it.id); if(v) v.innerText='0'; let b=document.getElementById('bar-'+it.id); if(b) b.style.width='0%'; }));
+  selUpsell('');
+  recalc();
+  document.getElementById('branchName').value='';
+  document.getElementById('evaluatorName').value='';
+  document.getElementById('notesText').value='';
+  let now=new Date();
+  document.getElementById('visitDate').value=now.toISOString().slice(0,10);
+  let timeStr=now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('visitTime').value=timeStr;
+  showToast('↺ تم إعادة التعيين');
+};
+
 // PDF Export for evaluation
-async function exportEvaluationPDF(){ const {jsPDF}=window.jspdf; let element=document.createElement('div'); element.style.width='794px'; element.style.background='white'; element.style.padding='24px'; element.style.fontFamily='Cairo'; element.dir='rtl'; let branch=document.getElementById('branchName').value||'غير محدد'; let evalName=document.getElementById('evaluatorName').value||'—'; let date=document.getElementById('visitDate').value||'—'; let notes=document.getElementById('notesText').value||'—'; let finalSc=document.getElementById('finalNum').innerText; let gradeText=document.getElementById('gradeBadge').innerText; let sectionsHtml=''; SECTIONS.forEach(sec=>{ let tot=0; sec.items.forEach(it=>tot+=scores[it.id]); sectionsHtml+=`<div style="margin-bottom:10px;"><strong>${sec.ar}</strong> (${tot}/${sec.max})<div style="background:#eef;border-radius:8px;height:6px;"><div style="width:${(tot/sec.max)*100}%;height:6px;background:#1976D2;border-radius:8px;"></div></div></div>`; }); element.innerHTML=`<div style="text-align:center;"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" style="height:50px;"><h2>تقرير العميل الخفي - مطاعم نايف</h2></div><div style="margin-top:16px;"><strong>الفرع:</strong> ${branch}<br><strong>المقيّم:</strong> ${evalName}<br><strong>التاريخ:</strong> ${date}<br><strong>الدرجة النهائية:</strong> ${finalSc}/100<br><strong>التقدير:</strong> ${gradeText}<br><strong>حالة Upselling:</strong> ${upsellVal==='good'?'ممتاز':upsellVal==='weak'?'ضعيف':'لم يتم'}<br><br>${sectionsHtml}<br><strong>ملاحظات:</strong><br>${notes}</div>`; document.body.appendChild(element); let canvas=await html2canvas(element,{scale:2}); let imgData=canvas.toDataURL('image/png'); let pdf=new jsPDF('p','pt','a4'); let imgWidth=pdf.internal.pageSize.getWidth(); let imgHeight=(canvas.height*imgWidth)/canvas.width; pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight); pdf.save(`Mystery_${branch}_${date}.pdf`); document.body.removeChild(element); showToast('تم تصدير PDF');}
-async function exportDashboardPDF(){ if(!records.length){ showToast('لا توجد بيانات'); return; } let {jsPDF}=window.jspdf; let div=document.createElement('div'); div.style.width='794px';div.style.background='white';div.style.padding='24px';div.dir='rtl'; let avg=Math.round(records.reduce((s,r)=>s+r.score,0)/records.length); div.innerHTML=`<div style="text-align:center"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" height="50"><h2>لوحة معلومات الفروع</h2><p>إجمالي الزيارات: ${records.length} | متوسط الدرجة: ${avg}/100</p></div><ul>${[...new Map(records.map(r=>[r.branch,r])).keys()].map(b=>{let br=records.filter(r=>r.branch===b); let sco=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length); return `<li>${b}: ${sco}/100 (${br.length} زيارة)</li>`;}).join('')}</ul>`; document.body.appendChild(div); let canvas=await html2canvas(div,{scale:2}); let pdf=new jsPDF('p','pt','a4'); pdf.addImage(canvas.toDataURL(),'PNG',0,0,pdf.internal.pageSize.getWidth(),(canvas.height*794)/canvas.width); pdf.save('Dashboard_Naif.pdf'); document.body.removeChild(div); showToast('تم تصدير لوحة المعلومات');}
-function renderDashboard(){ if(!records.length){document.getElementById('chart-container').innerHTML='<div class="empty">لا توجد بيانات</div>';return;}
-  let bmap={}; records.forEach(r=>{if(!bmap[r.branch])bmap[r.branch]={v:0,t:0,uG:0};bmap[r.branch].v++;bmap[r.branch].t+=r.score;if(r.upsell==='good')bmap[r.branch].uG++;}); let sorted=Object.keys(bmap).map(n=>({name:n,avg:Math.round(bmap[n].t/bmap[n].v),visits:bmap[n].v,upPct:Math.round((bmap[n].uG/bmap[n].v)*100)})).sort((a,b)=>b.avg-a.avg);
-  let html=''; sorted.forEach((b,i)=>{html+=`<div class="chart-row"><div class="chart-branch">${i+1}. ${b.name}</div><div class="chart-track"><div class="chart-fill" style="width:${b.avg}%;background:linear-gradient(90deg,var(--red),var(--blue));"><span style="margin-right:8px;">${b.avg}</span></div></div><div class="chart-visits">${b.visits}</div></div>`;}); document.getElementById('chart-container').innerHTML=html;
-  let upHtml=''; sorted.forEach(b=>{upHtml+=`<div class="dist-row"><div class="dist-name">${b.name}</div><div class="dist-bar"><div class="dist-seg" style="width:${b.upPct}%;background:var(--green);">${b.upPct}%</div><div class="dist-seg" style="width:${100-b.upPct}%;background:#ddd;"> </div></div></div>`;}); document.getElementById('upsell-chart').innerHTML=upHtml+'<div class="dist-legend"><span>✅ ممتاز</span><span>⬜ بدون</span></div>';
-  document.querySelector('.kpi-grid').innerHTML=`<div class="kpi-card"><div>🏪</div><div style="font-size:24px;">${Object.keys(bmap).length}</div><div>فروع</div></div><div><div>📋</div><div>${records.length}</div><div>زيارات</div></div><div><div>⭐</div><div>${Math.round(records.reduce((s,r)=>s+r.score,0)/records.length)}</div><div>المتوسط</div></div>`;
+window.exportEvaluationPDF = async function(){
+  try{
+    let branch=document.getElementById('branchName').value.trim() || 'غير محدد';
+    let evaluator=document.getElementById('evaluatorName').value.trim() || '—';
+    let date=document.getElementById('visitDate').value || '—';
+    let notes=document.getElementById('notesText').value.trim() || '—';
+    let finalSc=document.getElementById('finalNum').innerText;
+    let gradeText=document.getElementById('gradeBadge').innerText;
+    let upsellingLabel= upsellVal==='good'?'ممتاز ✅': upsellVal==='weak'?'ضعيف ⚠️':'لم يتم ❌';
+    let sectionsHtml='';
+    SECTIONS.forEach(sec=>{
+      let tot=0; sec.items.forEach(it=>tot+=scores[it.id]);
+      sectionsHtml+=`<div style="margin-bottom:12px;"><strong>${sec.ar}</strong> (${tot}/${sec.max})<div style="background:#eef;border-radius:8px;height:8px;"><div style="width:${(tot/sec.max)*100}%;height:8px;background:#1976D2;border-radius:8px;"></div></div></div>`;
+    });
+    let element=document.createElement('div');
+    element.style.width='794px'; element.style.background='white'; element.style.padding='24px'; element.style.fontFamily='Cairo'; element.dir='rtl';
+    element.innerHTML=`<div style="text-align:center;"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" style="height:60px;"><h2>تقرير العميل الخفي - مطاعم نايف</h2></div><div style="margin-top:20px;"><strong>الفرع:</strong> ${branch}<br><strong>المقيّم:</strong> ${evaluator}<br><strong>التاريخ/الوقت:</strong> ${date} ${document.getElementById('visitTime').value||''}<br><strong>نوع التقييم:</strong> ${visitType===1?'زيارة ميدانية':'مراجعة كاميرات'}<br><strong>الدرجة النهائية:</strong> ${finalSc}/100<br><strong>التقدير:</strong> ${gradeText}<br><strong>حالة Upselling:</strong> ${upsellingLabel}<br><br>${sectionsHtml}<br><strong>ملاحظات:</strong><br>${notes}</div>`;
+    document.body.appendChild(element);
+    let canvas=await html2canvas(element,{scale:2, backgroundColor:'#ffffff'});
+    let imgData=canvas.toDataURL('image/png');
+    let {jsPDF}=window.jspdf;
+    let pdf=new jsPDF('p','pt','a4');
+    let imgWidth=pdf.internal.pageSize.getWidth();
+    let imgHeight=(canvas.height*imgWidth)/canvas.width;
+    pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight);
+    pdf.save(`Mystery_${branch}_${date}.pdf`);
+    document.body.removeChild(element);
+    showToast('✅ تم تصدير PDF');
+  } catch(e){ console.error(e); showToast('خطأ في التصدير'); }
+};
+
+window.exportDashboardPDF = async function(){
+  if(!records.length){ showToast('لا توجد بيانات'); return; }
+  let avg=Math.round(records.reduce((s,r)=>s+r.score,0)/records.length);
+  let branchStats=[...new Map(records.map(r=>[r.branch,r])).keys()].map(b=>{
+    let br=records.filter(r=>r.branch===b);
+    let sco=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length);
+    return `<li>${b}: ${sco}/100 (${br.length} زيارة)</li>`;
+  }).join('');
+  let element=document.createElement('div');
+  element.style.width='794px'; element.style.background='white'; element.style.padding='24px'; element.dir='rtl';
+  element.innerHTML=`<div style="text-align:center"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" height="60"><h2>لوحة معلومات الفروع - نايف</h2><p>إجمالي الزيارات: ${records.length} | متوسط الدرجة: ${avg}/100</p></div><ul>${branchStats}</ul>`;
+  document.body.appendChild(element);
+  let canvas=await html2canvas(element,{scale:2});
+  let {jsPDF}=window.jspdf;
+  let pdf=new jsPDF('p','pt','a4');
+  let imgWidth=pdf.internal.pageSize.getWidth();
+  let imgHeight=(canvas.height*imgWidth)/canvas.width;
+  pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,imgWidth,imgHeight);
+  pdf.save('Dashboard_Naif.pdf');
+  document.body.removeChild(element);
+  showToast('✅ تم تصدير لوحة المعلومات');
+};
+
+// WhatsApp
+window.sendWA = function(){
+  let branch=document.getElementById('branchName').value.trim()||'—';
+  let grand=document.getElementById('finalNum').innerText;
+  let lines=SECTIONS.map(sec=>{let t=0;sec.items.forEach(it=>t+=scores[it.id]);return `${sec.ar}: ${t}/${sec.max}`;}).join('\n');
+  let msg=`🕵️ *تقرير العميل الخفي - نايف*\n📍 الفرع: ${branch}\n━━━━━━━━━━━━━━━\n${lines}\n━━━━━━━━━━━━━━━\n🏆 الإجمالي: ${grand}/100\nUpselling: ${upsellVal==='good'?'ممتاز':upsellVal==='weak'?'ضعيف':'لم يتم'}\n📝 ملاحظات: ${document.getElementById('notesText').value.slice(0,100)}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+};
+window.sendDashWA = function(){
+  if(!records.length){ showToast('لا توجد بيانات'); return; }
+  let avg=Math.round(records.reduce((s,r)=>s+r.score,0)/records.length);
+  let branchLines=[...new Map(records.map(r=>[r.branch,r])).keys()].map(b=>{
+    let br=records.filter(r=>r.branch===b);
+    let sc=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length);
+    return `${b}: ${sc}`;
+  }).join('\n');
+  let msg=`📊 *لوحة الفروع - نايف*\nالزيارات: ${records.length}\nالمتوسط: ${avg}/100\n\n🏆 الترتيب:\n${branchLines}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
+};
+
+// Dashboard render
+window.renderDashboard = function(){
+  if(!records.length){ document.getElementById('kpiGrid').innerHTML='<div class="empty">لا توجد بيانات</div>'; document.getElementById('chart-container').innerHTML='<div class="empty">لا توجد بيانات</div>'; document.getElementById('upsell-chart').innerHTML='<div class="empty">لا توجد بيانات</div>'; return; }
+  let bmap={};
+  records.forEach(r=>{ if(!bmap[r.branch]) bmap[r.branch]={v:0,t:0,uG:0}; bmap[r.branch].v++; bmap[r.branch].t+=r.score; if(r.upsell==='good') bmap[r.branch].uG++; });
+  let sorted=Object.keys(bmap).map(n=>({name:n,avg:Math.round(bmap[n].t/bmap[n].v),visits:bmap[n].v,upPct:Math.round((bmap[n].uG/bmap[n].v)*100)})).sort((a,b)=>b.avg-a.avg);
+  let kpiHtml=`<div class="kpi-card"><div>🏪</div><div style="font-size:24px;">${sorted.length}</div><div>فروع</div></div><div class="kpi-card"><div>📋</div><div style="font-size:24px;">${records.length}</div><div>زيارات</div></div><div class="kpi-card"><div>⭐</div><div style="font-size:24px;">${Math.round(records.reduce((s,r)=>s+r.score,0)/records.length)}</div><div>المتوسط</div></div>`;
+  document.getElementById('kpiGrid').innerHTML=kpiHtml;
+  let chartHtml=''; sorted.forEach((b,i)=>{ chartHtml+=`<div class="chart-row"><div class="chart-branch">${i+1}. ${b.name}</div><div class="chart-track"><div class="chart-fill" style="width:${b.avg}%;background:linear-gradient(90deg,var(--red),var(--blue));"><span style="margin-right:8px;">${b.avg}</span></div></div><div class="chart-visits">${b.visits}</div></div>`; });
+  document.getElementById('chart-container').innerHTML=chartHtml;
+  let upHtml=''; sorted.forEach(b=>{ upHtml+=`<div class="dist-row"><div class="dist-name">${b.name}</div><div class="dist-bar"><div class="dist-seg" style="width:${b.upPct}%;background:var(--green);">${b.upPct}%</div><div class="dist-seg" style="width:${100-b.upPct}%;background:#ddd;"></div></div></div>`; });
+  document.getElementById('upsell-chart').innerHTML=upHtml+'<div class="dist-legend" style="margin-top:8px;"><span>✅ ممتاز</span><span>⬜ بدون</span></div>';
+};
+
+window.renderRecords = function(){
+  let filterTxt=document.getElementById('filterBranch').value.toLowerCase();
+  let gradeFilter=document.getElementById('filterGrade').value;
+  let filtered=records.filter(r=>(!filterTxt||r.branch.toLowerCase().includes(filterTxt))&&(!gradeFilter||r.grade===gradeFilter)).reverse();
+  document.getElementById('rec-count').innerText=filtered.length+' زيارة';
+  let container=document.getElementById('records-list');
+  if(!filtered.length){ container.innerHTML='<div class="empty">لا توجد سجلات</div>'; return; }
+  container.innerHTML=filtered.map(r=>`<div class="rec-item" style="padding:12px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;"><div><div style="font-weight:700;">${r.branch}</div><div style="font-size:10px;">${r.date||''} ${r.time||''} · ${r.evaluator||''}</div></div><div style="display:flex;gap:8px;"><span style="background:${r.grade==='E'?'#f9f2d9':r.grade==='V'?'#e0f2e9':'#fee2e2'};padding:4px 10px;border-radius:40px;">${r.score}/100</span><button class="del-btn" onclick="window.deleteRecord(${r.id})" style="background:none;border:none;font-size:18px;">🗑</button></div></div>`).join('');
+};
+
+window.deleteRecord = function(id){
+  if(!confirm('حذف السجل؟')) return;
+  records=records.filter(r=>r.id!==id);
+  saveRecordsToLocal();
+  renderRecords();
+  renderDashboard();
+  showToast('تم الحذف');
+};
+
+window.clearAll = function(){
+  if(!confirm('حذف كل السجلات نهائياً؟')) return;
+  records=[];
+  saveRecordsToLocal();
+  renderRecords();
+  renderDashboard();
+  showToast('تم مسح الكل');
+};
+
+window.switchTab = function(tab){
+  ['form','dash','records'].forEach(t=>{ document.getElementById('page-'+t).classList.toggle('active',t===tab); document.getElementById('nav-'+t).classList.toggle('active',t===tab); });
+  if(tab==='dash') renderDashboard();
+  if(tab==='records') renderRecords();
+  document.getElementById('scrollArea').scrollTop=0;
+};
+
+// Set default datetime and init
+function initDateTime(){
+  let now=new Date();
+  document.getElementById('visitDate').value=now.toISOString().slice(0,10);
+  let hours=now.getHours().toString().padStart(2,'0');
+  let mins=now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('visitTime').value=`${hours}:${mins}`;
 }
-function renderRecords(){ let filtered=records.filter(r=>{let bf=(document.getElementById('filterBranch').value||'').toLowerCase(); let g=document.getElementById('filterGrade').value; return (!bf||r.branch.toLowerCase().includes(bf))&&(!g||r.grade===g); }).reverse(); document.getElementById('rec-count').innerText=filtered.length+' زيارة'; let container=document.getElementById('records-list'); if(!filtered.length){container.innerHTML='<div class="empty">لا توجد سجلات</div>';return;} container.innerHTML=filtered.map(r=>`<div class="rec-item" style="padding:12px;border-bottom:1px solid #eee;"><div><div style="font-weight:700;">${r.branch}</div><div style="font-size:10px;">${r.date||''} ${r.time||''} · ${r.evaluator||''}</div></div><div style="display:flex;gap:8px;align-items:center;"><span class="score-pill" style="background:${r.grade==='E'?'#f9f2d9':r.grade==='V'?'#e0f2e9':'#fee2e2'}">${r.score}/100</span><button class="del-btn" onclick="deleteRecord(${r.id})">🗑</button></div></div>`).join('');}
-function deleteRecord(id){ if(confirm('حذف؟')){ records=records.filter(r=>r.id!==id); saveRecords(); renderRecords(); renderDashboard(); showToast('تم الحذف'); } }
-function clearAll(){ if(confirm('مسح كل السجلات نهائياً؟')){ records=[]; saveRecords(); renderRecords(); renderDashboard(); showToast('تم المسح'); } }
-function sendWA(){ let branch=document.getElementById('branchName').value||'—'; let grand=document.getElementById('finalNum').innerText; let lines=SECTIONS.map(sec=>{let t=0;sec.items.forEach(it=>t+=scores[it.id]);return `${sec.ar}: ${t}/${sec.max}`;}).join('\n'); let msg=`🕵️ تقرير Naif\n📍${branch}\n${lines}\n🏆 الإجمالي: ${grand}/100\nUpselling: ${upsellVal==='good'?'ممتاز':upsellVal==='weak'?'ضعيف':'لم يتم'}\nملاحظات: ${document.getElementById('notesText').value}`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);}
-function sendDashWA(){ if(!records.length) return; let avg=Math.round(records.reduce((s,r)=>s+r.score,0)/records.length); let msg=`📊 تقرير الفروع - نايف\nالزيارات: ${records.length}\nالمتوسط: ${avg}/100\n${[...new Map(records.map(r=>[r.branch,r]))].map(b=>{let br=records.filter(r=>r.branch===b[0]);let sc=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length);return `${b[0]}: ${sc}`;}).join('\n')}`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);}
-function switchTab(t){ ['form','dash','records'].forEach(k=>{ document.getElementById('page-'+k).classList.toggle('active',k===t); document.getElementById('nav-'+k).classList.toggle('active',k===t); }); if(t==='dash') renderDashboard(); if(t==='records') renderRecords(); document.getElementById('scrollArea').scrollTop=0; }
-// init
-buildForm(); recalc(); loadRecords(); updateBranchDatalist(); buildAlphabetFilter(); document.getElementById('visitDate').valueAsDate=new Date(); window.selUpsell=selUpsell; window.chScore=chScore; window.selType=selType; window.saveRecord=saveRecord; window.resetForm=resetForm; window.sendWA=sendWA; window.sendDashWA=sendDashWA; window.switchTab=switchTab; window.deleteRecord=deleteRecord; window.clearAll=clearAll; window.exportEvaluationPDF=exportEvaluationPDF; window.exportDashboardPDF=exportDashboardPDF; window.renderRecords=renderRecords; window.toggleSec=toggleSec;
+
+// Event binding
+document.addEventListener('DOMContentLoaded',()=>{
+  loadRecords();
+  buildForm();
+  recalc();
+  buildAlphabetFilter();
+  updateBranchDatalist();
+  initDateTime();
+  // button events
+  document.getElementById('saveBtn').onclick=()=>window.saveRecord();
+  document.getElementById('waBtn').onclick=()=>window.sendWA();
+  document.getElementById('pdfBtn').onclick=()=>window.exportEvaluationPDF();
+  document.getElementById('resetBtn').onclick=()=>window.resetForm();
+  document.getElementById('dashWaBtn').onclick=()=>window.sendDashWA();
+  document.getElementById('dashPdfBtn').onclick=()=>window.exportDashboardPDF();
+  document.getElementById('clearAllBtn').onclick=()=>window.clearAll();
+  // initial UI updates
+  if(window.renderDashboard) window.renderDashboard();
+  if(window.renderRecords) window.renderRecords();
+});
 </script>
 </body>
 </html>
