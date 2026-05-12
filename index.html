@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#e9f0f5">
+<title>العميل الخفي · Naif Mystery Shopper</title>
+<!-- Logo & Favicon -->
+<link rel="icon" href="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" type="image/jpeg">
+<!-- Fonts & Libraries -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --blue-light:#eef5fc;
+  --blue:#1976D2;
+  --blue-dark:#0b5aa2;
+  --red:#d32f2f;
+  --red-light:#fce4e4;
+  --gray-bg:#f5f7fa;
+  --card-white:#ffffff;
+  --border-light:#e2e8f0;
+  --text-dark:#1e293b;
+  --text-muted:#5f6c80;
+  --gold-accent:#d4af37;
+  --green:#2e7d32;
+  --nav-h:68px;
+  --header-h:64px;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--gray-bg);
+  color:var(--text-dark);
+  direction:rtl;
+  display:flex;
+  flex-direction:column;
+  overscroll-behavior:none;
+}
+/* HEADER */
+.header{
+  height:var(--header-h);
+  background:linear-gradient(135deg, var(--blue), var(--blue-dark));
+  border-bottom:1px solid rgba(255,255,240,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  flex-shrink:0;
+  position:relative;
+  z-index:50;
+  color:white;
+}
+.logo-area{display:flex;align-items:center;gap:10px;}
+.logo-img{height:40px;width:auto;border-radius:10px;background:#fff;padding:3px;}
+.header-title{font-size:15px;font-weight:900;line-height:1.3;}
+.header-title span{color:#ffd966;}
+.header-sub{font-size:9px;opacity:0.9;direction:ltr;}
+
+.ring-wrap{position:relative;width:46px;height:46px;flex-shrink:0;}
+.ring-bg,.ring-fill{fill:none;stroke-width:3;}
+.ring-bg{stroke:rgba(255,255,255,0.3);}
+.ring-fill{stroke:#ffd966;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .4s;}
+.headerScoreSmall{font-size:13px;font-weight:900;color:#ffd966;line-height:1;}
+/* scroll */
+.scroll-area{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:calc(var(--nav-h) + var(--safe-bottom) + 8px);
+}
+.scroll-area::-webkit-scrollbar{display:none;}
+/* pages */
+.page{display:none;animation:fadeIn .2s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+/* bottom nav */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  height:calc(var(--nav-h) + var(--safe-bottom));
+  padding-bottom:var(--safe-bottom);
+  background:var(--card-white);
+  border-top:1px solid var(--border-light);
+  display:flex;
+  z-index:100;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;cursor:pointer;
+  color:var(--text-muted);transition:color .15s;
+  padding-top:6px;
+}
+.nav-item.active{color:var(--blue);}
+.nav-icon{font-size:24px;line-height:1;}
+.nav-lbl{font-size:9px;font-weight:700;}
+.nav-dot{width:4px;height:4px;border-radius:50%;background:var(--blue);margin-top:2px;opacity:0;}
+.nav-item.active .nav-dot{opacity:1;}
+/* Cards & Sections */
+.info-card, .sec-pill, .notes-card, .final-box, .chart-card, .rec-card{
+  background:var(--card-white);
+  border:1px solid var(--border-light);
+  border-radius:20px;
+  margin:12px 12px 0;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,0.02);
+}
+.sec-pill-icon{
+  width:44px;height:44px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+}
+.sec-pill-head{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;
+  cursor:pointer;
+}
+.sec-pill-titles{flex:1;}
+.sec-pill-ar{font-size:15px;font-weight:800;}
+.sec-pill-en{font-size:10px;color:var(--text-muted);}
+.sec-pill-badge{
+  background:var(--blue-light);
+  border-radius:30px;
+  padding:5px 14px;
+  font-size:13px;font-weight:900;
+  color:var(--blue);
+  white-space:nowrap;
+}
+.sec-pill-body{padding:0 16px 16px;display:none;}
+.sec-pill-body.open{display:block;}
+.crit{
+  padding:12px 0;
+  border-bottom:1px solid var(--border-light);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.crit-texts{flex:1;}
+.crit-ar{font-size:13px;font-weight:600;}
+.crit-en{font-size:9px;color:var(--text-muted);direction:ltr;text-align:left;}
+.crit-max{font-size:9px;color:var(--blue-dark);font-weight:700;margin-top:3px;}
+.crit-ctrl{display:flex;align-items:center;gap:4px;}
+.crit-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--blue-light);border:none;
+  font-size:22px;font-weight:bold;
+  color:var(--blue);cursor:pointer;
+  transition:all .1s;
+}
+.crit-btn:active{background:#cde3f5;transform:scale(.94);}
+.crit-val{min-width:38px;text-align:center;font-size:20px;font-weight:900;color:var(--red);}
+.crit-bar-wrap{height:4px;background:var(--border-light);border-radius:3px;margin-top:6px;}
+.crit-bar-fill{height:100%;background:linear-gradient(90deg, var(--red), var(--blue));border-radius:3px;transition:width .2s;}
+.sec-total{
+  background:var(--blue-light);
+  border-radius:14px;
+  padding:12px;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.sec-total-lbl{font-size:11px;font-weight:600;color:var(--blue-dark);}
+.pbar{flex:1;height:6px;background:#cddfea;border-radius:4px;}
+.pfill{height:100%;background:linear-gradient(90deg,var(--red),var(--blue));border-radius:4px;}
+.sec-total-val{font-size:15px;font-weight:900;color:var(--blue);}
+/* upselling */
+.up-wrap{
+  background:rgba(25,118,210,0.04);
+  border:1px solid var(--blue);
+  border-radius:16px;
+  padding:12px;
+  margin:10px 0 8px;
+}
+.up-header-ar{font-size:13px;font-weight:800;color:var(--blue);}
+.up-opt{
+  display:flex;align-items:center;gap:12px;
+  padding:12px;border-radius:14px;
+  border:1px solid var(--border-light);
+  background:var(--card-white);
+  margin-bottom:8px;cursor:pointer;
+  transition:all .1s;
+}
+.up-opt:active{transform:scale(.98);}
+.up-opt.sg{border-color:var(--green);background:#e8f5e9;}
+.up-opt.sw{border-color:#f57c00;background:#fff3e0;}
+.up-opt.sn{border-color:var(--red);background:var(--red-light);}
+.udot{width:16px;height:16px;border-radius:50%;border:2px solid var(--text-muted);flex-shrink:0;}
+.up-opt.sg .udot{border-color:var(--green);background:var(--green);}
+.up-opt.sw .udot{border-color:#f57c00;background:#f57c00;}
+.up-opt.sn .udot{border-color:var(--red);background:var(--red);}
+.up-opt-ar{font-size:13px;font-weight:600;}
+/* info fields */
+.field label{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:3px;display:block;}
+.field input, .field select, .field textarea{
+  background:var(--gray-bg);
+  border:1px solid var(--border-light);
+  border-radius:14px;
+  padding:12px 14px;
+  font-family:inherit;
+  font-size:14px;
+  width:100%;
+  outline:none;
+  transition:all .2s;
+}
+.field input:focus, .field select:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(25,118,210,0.1);}
+.type-row{display:flex;gap:10px;}
+.type-opt{
+  flex:1;background:var(--gray-bg);
+  border:1.5px solid var(--border-light);
+  border-radius:16px;
+  padding:12px;
+  display:flex;align-items:center;gap:8px;
+  cursor:pointer;
+}
+.type-opt.sel{border-color:var(--blue);background:#eef5fc;}
+.tdot{width:18px;height:18px;border-radius:50%;border:2px solid var(--text-muted);}
+.type-opt.sel .tdot{border-color:var(--blue);background:var(--blue);}
+/* final box */
+.final-box{background:linear-gradient(135deg,#fef8e7, white);border-top:4px solid var(--blue);}
+.final-num{font-size:68px;font-weight:900;background:linear-gradient(135deg,var(--red),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.grade-badge{display:inline-block;padding:8px 20px;border-radius:40px;font-weight:800;}
+.gE{border:2px solid var(--gold-accent);color:#b8860b;background:#fff8e7;}
+.gV{border:2px solid var(--green);color:var(--green);background:#e8f5e9;}
+.gG{border:2px solid var(--blue);color:var(--blue-dark);background:#e3f2fd;}
+.gI{border:2px solid var(--red);color:var(--red);background:var(--red-light);}
+/* actions */
+.actions{margin:12px 12px 0;display:flex;gap:10px;}
+.act-btn{
+  flex:1;height:52px;border-radius:18px;
+  font-weight:800;font-family:inherit;font-size:13px;
+  cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .15s;
+}
+.act-save{background:var(--blue);color:white;}
+.act-wa{background:#25D366;color:white;}
+.act-pdf{background:#f57c00;color:white;}
+.act-reset{background:var(--gray-bg);border:1px solid var(--border-light);color:var(--red);font-size:18px;}
+/* alphabet filter */
+.alphabet-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin:0 12px 10px 12px;
+  justify-content:center;
+}
+.alpha-btn{
+  background:var(--blue-light);
+  border:none;
+  width:38px;height:38px;
+  border-radius:40px;
+  font-weight:700;
+  font-size:14px;
+  color:var(--blue-dark);
+  cursor:pointer;
+  transition:all .1s;
+}
+.alpha-btn:active{background:var(--blue);color:white;transform:scale(.95);}
+.branch-suggest{
+  margin:4px 12px 8px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.suggest-chip{
+  background:var(--gray-bg);
+  padding:6px 14px;
+  border-radius:40px;
+  font-size:12px;
+  border:1px solid var(--border-light);
+  cursor:pointer;
+  transition:all .1s;
+}
+.suggest-chip:active{background:var(--blue);color:white;}
+/* dashboard charts */
+.chart-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+.chart-branch{font-size:13px;font-weight:600;min-width:90px;white-space:nowrap;overflow:hidden;}
+.chart-track{flex:1;height:28px;background:#e2edf5;border-radius:20px;overflow:hidden;}
+.chart-fill{height:100%;border-radius:20px;display:flex;align-items:center;justify-content:flex-start;padding-right:8px;color:white;font-weight:bold;font-size:12px;}
+.dist-bar{display:flex;gap:2px;height:24px;border-radius:12px;overflow:hidden;}
+.dist-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;color:white;}
+/* empty */
+.empty{text-align:center;padding:40px 20px;color:var(--text-muted);}
+.toast{
+  position:fixed;top:75px;left:50%;transform:translateX(-50%);
+  background:var(--blue-dark);color:white;padding:10px 20px;border-radius:40px;
+  font-weight:700;z-index:200;opacity:0;transition:0.2s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="header">
+  <div class="logo-area">
+    <img class="logo-img" src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" alt="Naif Logo">
+    <div><div class="header-title">🕵️ <span>العميل الخفي</span></div><div class="header-sub">Mystery Shopper · Naif Restaurants</div></div>
+  </div>
+  <div class="ring-wrap">
+    <svg viewBox="0 0 46 46" width="46" height="46">
+      <defs><linearGradient id="ringG" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#d32f2f"/><stop offset="100%" stop-color="#1976D2"/></linearGradient></defs>
+      <circle class="ring-bg" cx="23" cy="23" r="20"/>
+      <circle class="ring-fill" id="ringFill" cx="23" cy="23" r="20" stroke="url(#ringG)" stroke-dasharray="125.66" stroke-dashoffset="125.66"/>
+    </svg>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span id="headerScore" style="font-size:14px;font-weight:900;color:#ffd966;">0</span><span style="font-size:7px;">/100</span></div>
+  </div>
+</div>
+<div class="scroll-area" id="scrollArea">
+  <!-- FORM PAGE -->
+  <div class="page active" id="page-form">
+    <div class="info-card">
+      <div class="info-card-head" style="padding:14px 16px;display:flex;gap:10px;border-bottom:1px solid var(--border-light);">
+        <span style="font-size:22px;">📋</span>
+        <div><div style="font-weight:800;">بيانات الزيارة</div><div style="font-size:10px;color:var(--text-muted);">Visit Information</div></div>
+      </div>
+      <div class="info-card-body" style="padding:16px;">
+        <div class="field"><label>اسم الفرع · Branch Name</label><input type="text" id="branchName" placeholder="اكتب أو اختر فرعاً" autocomplete="off" list="branches-list"></div>
+        <datalist id="branches-list"></datalist>
+        <!-- alphabet filter + suggestions -->
+        <div class="alphabet-bar" id="alphabetBar"></div>
+        <div id="branchSuggestions" class="branch-suggest"></div>
+        <div class="field"><label>اسم المقيّم · Evaluator</label><input type="text" id="evaluatorName"></div>
+        <div class="fields-row" style="display:flex;gap:12px;"><div class="field" style="flex:1"><label>التاريخ</label><input type="date" id="visitDate"></div><div class="field" style="flex:1"><label>الوقت</label><input type="time" id="visitTime"></div></div>
+        <div class="field"><label>نوع التقييم</label><div class="type-row"><div class="type-opt sel" id="tOpt1" onclick="selType(1)"><span class="tdot"></span><div><div class="type-opt-ar">زيارة ميدانية</div><div class="type-opt-en">Dine-in</div></div></div><div class="type-opt" id="tOpt2" onclick="selType(2)"><span class="tdot"></span><div><div class="type-opt-ar">مراجعة كاميرات</div><div class="type-opt-en">Camera Review</div></div></div></div></div>
+      </div>
+    </div>
+    <div id="sections-container"></div>
+    <div class="notes-card"><div class="info-card-head" style="padding:14px 16px;display:flex;gap:10px;"><span>🚨</span><div><div style="font-weight:800;">ملاحظات المقيّم</div><div style="font-size:10px;">Evaluator Notes</div></div></div><div class="info-card-body"><textarea id="notesText" rows="3" style="width:100%;background:var(--gray-bg);border-radius:16px;padding:12px;" placeholder="تفاصيل المخالفات / الملاحظات ..."></textarea></div></div>
+    <div class="final-box"><div class="final-lbl" style="font-size:12px;">التقييم النهائي الإجمالي</div><div class="final-num" id="finalNum">0</div><div>/ 100</div><div class="grade-badge gI" id="gradeBadge">⚠️ يحتاج تحسين</div></div>
+    <div class="actions">
+      <button class="act-btn act-save" onclick="saveRecord()">💾 حفظ</button>
+      <button class="act-btn act-wa" onclick="sendWA()">📱 واتساب</button>
+      <button class="act-btn act-pdf" onclick="exportEvaluationPDF()">📄 PDF</button>
+      <button class="act-btn act-reset" onclick="resetForm()">↺</button>
+    </div>
+    <div style="height:10px;"></div>
+  </div>
+  <!-- DASHBOARD PAGE -->
+  <div class="page" id="page-dash">
+    <div class="kpi-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;"></div>
+    <div class="chart-card"><div class="chart-head" style="padding:14px;">🏆 ترتيب الفروع</div><div class="chart-body" id="chart-container"></div></div>
+    <div class="chart-card"><div class="chart-head" style="padding:14px;">📊 Upselling توزيع</div><div class="chart-body" id="upsell-chart"></div></div>
+    <button class="dash-send" onclick="sendDashWA()" style="margin:10px 12px;background:#25D366;border:none;border-radius:20px;height:48px;">📢 إرسال تقرير الفروع واتساب</button>
+    <button class="clear-btn" onclick="exportDashboardPDF()" style="margin:0 12px 12px;background:var(--blue);color:white;border:none;border-radius:20px;height:44px;">📑 تصدير لوحة المعلومات PDF</button>
+  </div>
+  <!-- RECORDS PAGE -->
+  <div class="page" id="page-records"><div class="filter-bar" style="display:flex;gap:8px;padding:12px;"><input type="text" id="filterBranch" placeholder="🔍 بحث بالفرع" oninput="renderRecords()"><select id="filterGrade" onchange="renderRecords()"><option value="">كل التقديرات</option><option value="E">ممتاز</option><option value="V">جيد جداً</option><option value="G">جيد</option><option value="I">يحتاج تحسين</option></select></div><div class="rec-card"><div class="rec-head" style="padding:12px;display:flex;justify-content:space-between;"><span>🗂️ سجل الزيارات</span><span id="rec-count"></span></div><div id="records-list"></div></div><button class="clear-btn" onclick="clearAll()" style="margin:12px;background:var(--gray-bg);border:1px solid var(--red);color:var(--red);">🗑️ حذف كل السجلات</button></div>
+</div>
+<div class="bottom-nav"><div class="nav-item active" id="nav-form" onclick="switchTab('form')"><span class="nav-icon">📋</span><span class="nav-lbl">التقييم</span><div class="nav-dot"></div></div><div class="nav-item" id="nav-dash" onclick="switchTab('dash')"><span class="nav-icon">📊</span><span class="nav-lbl">الفروع</span><div class="nav-dot"></div></div><div class="nav-item" id="nav-records" onclick="switchTab('records')"><span class="nav-icon">🗂️</span><span class="nav-lbl">السجلات</span><div class="nav-dot"></div></div></div>
+<script>
+// =============== BRANCHES MASTER (from provided list) =============
+const BRANCHES_DATA = [
+  {ar:"مجمع 360",en:"360 Mall"},{ar:"جمعية أبو فطيرة",en:"Abu Fatira Co-Op"},{ar:"ابو حليفة",en:"Abu Halifa"},{ar:"الاحمدي الصناعية",en:"Ahmadi Ind"},{ar:"الري",en:"Al Rai"},{ar:"مجمع الكوت",en:"AlKout"},{ar:"مجمع الأفنيوز",en:"Avenues"},{ar:"الضباعية",en:"Dabaya"},{ar:"الدسمة",en:"Dasma"},{ar:"الفحيحيل",en:"Fahaheel"},{ar:"الفيحاء",en:"Faiha"},{ar:"الفروانية",en:"Farwaniya"},{ar:"الفنطاس",en:"Fintas"},{ar:"هدية",en:"Hadiya"},{ar:"حولي بارك",en:"Hawally Park"},{ar:"جابر الأحمد",en:"Jaber Al-Ahmed"},{ar:"الجابرية 1 - تكا",en:"Jabriya Tikka"},{ar:"الجابرية 2 - بنت الديك",en:"Jabriya BD"},{ar:"الجهراء 2 - الصناعية",en:"Jahra Ind"},{ar:"الجهراء ليالي الشرق",en:"Jahra Layaly"},{ar:"الجهراء مكة",en:"Jahra Makkah"},{ar:"الجهراء 1 - الزويخ",en:"Jahra Duwaik"},{ar:"جليب الشيوخ",en:"Jleeb"},{ar:"كبد",en:"Kabed"},{ar:"الخيران أويا",en:"Khairan Oia"},{ar:"مجمع الخيران",en:"Khairan Mall"},{ar:"خيطان الجديدة",en:"Khaitan New"},{ar:"الخيول",en:"Khioul"},{ar:"المنقف",en:"Mangaf"},{ar:"مجمع المارينا",en:"Marina Mall"},{ar:"مشرف",en:"Mishref"},{ar:"العارضية الجديدة",en:"New Ardiya"},{ar:"الفروانية الجديدة",en:"New Farwaniya"},{ar:"القادسية",en:"Qadsiya"},{ar:"القيروان",en:"Qairawan"},{ar:"القرين",en:"Qurain"},{ar:"الرقعي",en:"Reggai"},{ar:"الرحاب",en:"Rehab"},{ar:"الرقة",en:"Riqqa"},{ar:"صباح الأحمد",en:"Sabah al Ahmed"},{ar:"صباح السالم",en:"Sabah Salem"},{ar:"صباح السالم العرين",en:"Sabah-Salem Alareen"},{ar:"السالمية 1 - النافورة",en:"Salmiya Nafura"},{ar:"السالمية 2 - السندباد",en:"Salmiya Sindhibad"},{ar:"السالمية 3 - شارع البحرين",en:"Salmiya Bahrain"},{ar:"السالمية 4 - سيد ياسين",en:"Salmiya Sayed Yasin"},{ar:"سلوى",en:"Salwa"},{ar:"الشرق",en:"Sharq"},{ar:"الشهداء",en:"Shuhada"},{ar:"الشويخ",en:"Shuwaikh"},{ar:"أسواق القرين",en:"Souq Qurain"},{ar:"جمعية الصليبية",en:"Sulaibiya CO-OP"},{ar:"الصليبخات",en:"Sulebhikat"},{ar:"الصليبية",en:"Suleibiya"},{ar:"الوفرة",en:"Wafra"},{ar:"غرب ابو فطيرة",en:"West Abu Fatira"},{ar:"الزهراء",en:"Zahra"}
+];
+const ALL_BRANCH_NAMES = BRANCHES_DATA.map(b=>b.ar);
+// ================== GLOBALS ===================
+let scores={}, upsellVal='', visitType=1, records=[];
+const SECTIONS = [
+  { key:'s1', ar:'الكاشير وخدمة العملاء', en:'Cashier & Customer Service', icon:'🎯', max:40, items:[{id:'c1_1',ar:'الترحيب بابتسامة',en:'Welcome smile',max:5},{id:'c1_2',ar:'التواصل البصري',en:'Eye contact',max:5},{id:'c1_3',ar:'تأكيد الطلب',en:'Order confirm',max:5},{id:'c1_4',ar:'سرعة أخذ الطلب',en:'Speed',max:5},{id:'c1_5',ar:'عرض منتج إضافي',en:'Upselling offer',max:10},{id:'c1_6',ar:'شرح العروض',en:'Explain offers',max:5},{id:'c1_7',ar:'شكر العميل',en:'Thank you',max:5}] },
+  { key:'s2', ar:'التشغيل والتجهيز', en:'Operations', icon:'🍔', max:25, items:[{id:'c2_1',ar:'سرعة التجهيز',en:'Prep speed',max:5},{id:'c2_2',ar:'تسليم مرتب',en:'Neat delivery',max:5},{id:'c2_3',ar:'الزي الرسمي',en:'Uniform',max:5},{id:'c2_4',ar:'نظافة منطقة العمل',en:'Clean work area',max:5},{id:'c2_5',ar:'قفازات وسلامة',en:'Gloves safety',max:5}] },
+  { key:'s3', ar:'النظافة والانضباط', en:'Cleanliness', icon:'🧼', max:15, items:[{id:'c3_1',ar:'نظافة الكاونتر',en:'Counter',max:5},{id:'c3_2',ar:'نظافة الأرضيات',en:'Floor',max:5},{id:'c3_3',ar:'مظهر الموظفين',en:'Appearance',max:5}] },
+  { key:'s4', ar:'تجربة العميل', en:'Experience', icon:'😊', max:20, items:[{id:'c4_1',ar:'احترافية',en:'Professionalism',max:5},{id:'c4_2',ar:'الهدوء أثناء الزحمة',en:'Calm',max:5},{id:'c4_3',ar:'اهتمام بالعميل',en:'Attentiveness',max:5},{id:'c4_4',ar:'رضا العميل',en:'Satisfaction',max:5}] }
+];
+function loadRecords(){ try{ records=JSON.parse(localStorage.getItem('naif_ms')||'[]'); }catch(e){records=[];} }
+function saveRecords(){ localStorage.setItem('naif_ms',JSON.stringify(records)); updateBranchDatalist(); }
+function showToast(m){ let t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000);}
+function buildForm(){
+  const container=document.getElementById('sections-container');
+  SECTIONS.forEach(sec=>{ sec.items.forEach(it=>scores[it.id]=0);
+    let div=document.createElement('div');div.className='sec-pill';
+    div.innerHTML=`<div class="sec-pill-head" onclick="toggleSec('${sec.key}')"><div class="sec-pill-icon" style="background:#eef2fc;">${sec.icon}</div><div class="sec-pill-titles"><div class="sec-pill-ar">${sec.ar}</div><div class="sec-pill-en">${sec.en}</div></div><div class="sec-pill-badge" id="badge-${sec.key}">0/${sec.max}</div></div><div class="sec-pill-body open" id="body-${sec.key}"><div id="crit-${sec.key}"></div>${sec.key==='s1'?`<div class="up-wrap"><div class="up-header-ar">⭐ مؤشر Upselling</div><div class="up-opt" id="uUp1" onclick="selUpsell('good')"><span class="udot"></span><div><div class="up-opt-ar">ممتاز ✅</div></div></div><div class="up-opt" id="uUp2" onclick="selUpsell('weak')"><span class="udot"></span><div><div class="up-opt-ar">ضعيف ⚠️</div></div></div><div class="up-opt" id="uUp3" onclick="selUpsell('none')"><span class="udot"></span><div><div class="up-opt-ar">لم يتم ❌</div></div></div></div>`:``}<div class="sec-total"><span class="sec-total-lbl">الإجمالي</span><div class="pbar"><div class="pfill" id="prog-${sec.key}"></div></div><span class="sec-total-val" id="total-${sec.key}">0/${sec.max}</span></div></div>`;
+    container.appendChild(div);
+    let critDiv=div.querySelector('#crit-'+sec.key);
+    sec.items.forEach(it=>{ let row=document.createElement('div');row.className='crit';
+      row.innerHTML=`<div class="crit-texts"><div class="crit-ar">${it.ar}</div><div class="crit-en">${it.en}</div><div class="crit-bar-wrap"><div class="crit-bar-fill" id="bar-${it.id}"></div></div><div class="crit-max">/ ${it.max}</div></div><div class="crit-ctrl"><button class="crit-btn" onclick="chScore('${it.id}',${it.max},-1)">−</button><span class="crit-val" id="val-${it.id}">0</span><button class="crit-btn" onclick="chScore('${it.id}',${it.max},1)">+</button></div>`;
+      critDiv.appendChild(row);
+    });
+  });
+}
+function toggleSec(k){ document.getElementById('body-'+k).classList.toggle('open'); }
+function chScore(id,max,d){ scores[id]=Math.min(max,Math.max(0,scores[id]+d)); document.getElementById('val-'+id).innerText=scores[id]; document.getElementById('bar-'+id).style.width=(scores[id]/max*100)+'%'; recalc(); }
+function recalc(){
+  let grand=0;
+  SECTIONS.forEach(sec=>{ let tot=0; sec.items.forEach(it=>tot+=scores[it.id]); document.getElementById('badge-'+sec.key).innerText=tot+'/'+sec.max; document.getElementById('total-'+sec.key).innerText=tot+'/'+sec.max; document.getElementById('prog-'+sec.key).style.width=(tot/sec.max*100)+'%'; grand+=tot; });
+  document.getElementById('finalNum').innerText=grand; document.getElementById('headerScore').innerText=grand;
+  let circ=125.66; document.getElementById('ringFill').style.strokeDashoffset=circ-(grand/100*circ);
+  let gr=document.getElementById('gradeBadge');
+  if(grand>=90){gr.className='grade-badge gE';gr.innerHTML='⭐ ممتاز · Excellent';}
+  else if(grand>=80){gr.className='grade-badge gV';gr.innerHTML='✅ جيد جدًا · Very Good';}
+  else if(grand>=70){gr.className='grade-badge gG';gr.innerHTML='👍 جيد · Good';}
+  else{gr.className='grade-badge gI';gr.innerHTML='⚠️ يحتاج تحسين · Needs Improvement';}
+}
+function selUpsell(v){ upsellVal=v; [['uUp1','good','sg'],['uUp2','weak','sw'],['uUp3','none','sn']].forEach(([id,k,cls])=>{ document.getElementById(id).className='up-opt'+(v===k?' '+cls:''); }); }
+function selType(n){ visitType=n; document.getElementById('tOpt1').classList.toggle('sel',n===1); document.getElementById('tOpt2').classList.toggle('sel',n===2); }
+function getGrade(g){ return g>=90?'E':g>=80?'V':g>=70?'G':'I'; }
+function saveRecord(){
+  let branch=document.getElementById('branchName').value.trim();
+  if(!branch){ showToast('⚠️ أدخل اسم الفرع'); return; }
+  let grand=parseInt(document.getElementById('finalNum').innerText);
+  let sectionScores={}; SECTIONS.forEach(sec=>{ let t=0; sec.items.forEach(it=>t+=scores[it.id]); sectionScores[sec.key]=t;});
+  records.push({ id:Date.now(), branch:evaluator:document.getElementById('evaluatorName').value.trim(), date:document.getElementById('visitDate').value, time:document.getElementById('visitTime').value, type:visitType===1?'داخل المطعم':'كاميرات', score:grand, grade:getGrade(grand), upsell:upsellVal, notes:document.getElementById('notesText').value.trim(), sections:sectionScores });
+  saveRecords(); showToast(`✅ حفظ ${branch} (${grand}/100)`); updateBranchDatalist();
+}
+function resetForm(){ if(confirm('إعادة تعيين النموذج؟')){ SECTIONS.forEach(sec=>sec.items.forEach(it=>{ scores[it.id]=0; let v=document.getElementById('val-'+it.id); if(v)v.innerText='0'; let b=document.getElementById('bar-'+it.id); if(b)b.style.width='0%';})); selUpsell(''); recalc(); document.getElementById('branchName').value=''; document.getElementById('evaluatorName').value=''; document.getElementById('notesText').value=''; document.getElementById('visitTime').value=''; document.getElementById('visitDate').value=new Date().toISOString().slice(0,10); showToast('تم إعادة التعيين'); } }
+function updateBranchDatalist(){ let dl=document.getElementById('branches-list'); dl.innerHTML=ALL_BRANCH_NAMES.map(b=>`<option value="${b}">`).join(''); }
+// alphabet & suggestions
+function buildAlphabetFilter(){ let letters=['أ','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','ه','و','ي']; let bar=document.getElementById('alphabetBar'); bar.innerHTML=letters.map(l=>`<button class="alpha-btn" data-letter="${l}">${l}</button>`).join(''); Array.from(document.querySelectorAll('.alpha-btn')).forEach(btn=>btn.addEventListener('click',(e)=>{ let letter=e.target.getAttribute('data-letter'); let filtered=ALL_BRANCH_NAMES.filter(b=>b.startsWith(letter)||b.startsWith(letter)); let suggDiv=document.getElementById('branchSuggestions'); if(filtered.length){ suggDiv.innerHTML=filtered.slice(0,12).map(b=>`<div class="suggest-chip" onclick="document.getElementById('branchName').value='${b.replace(/'/g,"\\'")}'; suggDiv.innerHTML='';">${b}</div>`).join(''); } else suggDiv.innerHTML='<div class="suggest-chip">لا توجد فروع</div>'; })); document.addEventListener('click',function(e){ if(!e.target.closest('.alpha-btn') && !e.target.closest('.suggest-chip')) document.getElementById('branchSuggestions').innerHTML=''; }); }
+// PDF Export for evaluation
+async function exportEvaluationPDF(){ const {jsPDF}=window.jspdf; let element=document.createElement('div'); element.style.width='794px'; element.style.background='white'; element.style.padding='24px'; element.style.fontFamily='Cairo'; element.dir='rtl'; let branch=document.getElementById('branchName').value||'غير محدد'; let evalName=document.getElementById('evaluatorName').value||'—'; let date=document.getElementById('visitDate').value||'—'; let notes=document.getElementById('notesText').value||'—'; let finalSc=document.getElementById('finalNum').innerText; let gradeText=document.getElementById('gradeBadge').innerText; let sectionsHtml=''; SECTIONS.forEach(sec=>{ let tot=0; sec.items.forEach(it=>tot+=scores[it.id]); sectionsHtml+=`<div style="margin-bottom:10px;"><strong>${sec.ar}</strong> (${tot}/${sec.max})<div style="background:#eef;border-radius:8px;height:6px;"><div style="width:${(tot/sec.max)*100}%;height:6px;background:#1976D2;border-radius:8px;"></div></div></div>`; }); element.innerHTML=`<div style="text-align:center;"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" style="height:50px;"><h2>تقرير العميل الخفي - مطاعم نايف</h2></div><div style="margin-top:16px;"><strong>الفرع:</strong> ${branch}<br><strong>المقيّم:</strong> ${evalName}<br><strong>التاريخ:</strong> ${date}<br><strong>الدرجة النهائية:</strong> ${finalSc}/100<br><strong>التقدير:</strong> ${gradeText}<br><strong>حالة Upselling:</strong> ${upsellVal==='good'?'ممتاز':upsellVal==='weak'?'ضعيف':'لم يتم'}<br><br>${sectionsHtml}<br><strong>ملاحظات:</strong><br>${notes}</div>`; document.body.appendChild(element); let canvas=await html2canvas(element,{scale:2}); let imgData=canvas.toDataURL('image/png'); let pdf=new jsPDF('p','pt','a4'); let imgWidth=pdf.internal.pageSize.getWidth(); let imgHeight=(canvas.height*imgWidth)/canvas.width; pdf.addImage(imgData,'PNG',0,0,imgWidth,imgHeight); pdf.save(`Mystery_${branch}_${date}.pdf`); document.body.removeChild(element); showToast('تم تصدير PDF');}
+async function exportDashboardPDF(){ if(!records.length){ showToast('لا توجد بيانات'); return; } let {jsPDF}=window.jspdf; let div=document.createElement('div'); div.style.width='794px';div.style.background='white';div.style.padding='24px';div.dir='rtl'; let avg=Math.round(records.reduce((s,r)=>s+r.score,0)/records.length); div.innerHTML=`<div style="text-align:center"><img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" height="50"><h2>لوحة معلومات الفروع</h2><p>إجمالي الزيارات: ${records.length} | متوسط الدرجة: ${avg}/100</p></div><ul>${[...new Map(records.map(r=>[r.branch,r])).keys()].map(b=>{let br=records.filter(r=>r.branch===b); let sco=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length); return `<li>${b}: ${sco}/100 (${br.length} زيارة)</li>`;}).join('')}</ul>`; document.body.appendChild(div); let canvas=await html2canvas(div,{scale:2}); let pdf=new jsPDF('p','pt','a4'); pdf.addImage(canvas.toDataURL(),'PNG',0,0,pdf.internal.pageSize.getWidth(),(canvas.height*794)/canvas.width); pdf.save('Dashboard_Naif.pdf'); document.body.removeChild(div); showToast('تم تصدير لوحة المعلومات');}
+function renderDashboard(){ if(!records.length){document.getElementById('chart-container').innerHTML='<div class="empty">لا توجد بيانات</div>';return;}
+  let bmap={}; records.forEach(r=>{if(!bmap[r.branch])bmap[r.branch]={v:0,t:0,uG:0};bmap[r.branch].v++;bmap[r.branch].t+=r.score;if(r.upsell==='good')bmap[r.branch].uG++;}); let sorted=Object.keys(bmap).map(n=>({name:n,avg:Math.round(bmap[n].t/bmap[n].v),visits:bmap[n].v,upPct:Math.round((bmap[n].uG/bmap[n].v)*100)})).sort((a,b)=>b.avg-a.avg);
+  let html=''; sorted.forEach((b,i)=>{html+=`<div class="chart-row"><div class="chart-branch">${i+1}. ${b.name}</div><div class="chart-track"><div class="chart-fill" style="width:${b.avg}%;background:linear-gradient(90deg,var(--red),var(--blue));"><span style="margin-right:8px;">${b.avg}</span></div></div><div class="chart-visits">${b.visits}</div></div>`;}); document.getElementById('chart-container').innerHTML=html;
+  let upHtml=''; sorted.forEach(b=>{upHtml+=`<div class="dist-row"><div class="dist-name">${b.name}</div><div class="dist-bar"><div class="dist-seg" style="width:${b.upPct}%;background:var(--green);">${b.upPct}%</div><div class="dist-seg" style="width:${100-b.upPct}%;background:#ddd;"> </div></div></div>`;}); document.getElementById('upsell-chart').innerHTML=upHtml+'<div class="dist-legend"><span>✅ ممتاز</span><span>⬜ بدون</span></div>';
+  document.querySelector('.kpi-grid').innerHTML=`<div class="kpi-card"><div>🏪</div><div style="font-size:24px;">${Object.keys(bmap).length}</div><div>فروع</div></div><div><div>📋</div><div>${records.length}</div><div>زيارات</div></div><div><div>⭐</div><div>${Math.round(records.reduce((s,r)=>s+r.score,0)/records.length)}</div><div>المتوسط</div></div>`;
+}
+function renderRecords(){ let filtered=records.filter(r=>{let bf=(document.getElementById('filterBranch').value||'').toLowerCase(); let g=document.getElementById('filterGrade').value; return (!bf||r.branch.toLowerCase().includes(bf))&&(!g||r.grade===g); }).reverse(); document.getElementById('rec-count').innerText=filtered.length+' زيارة'; let container=document.getElementById('records-list'); if(!filtered.length){container.innerHTML='<div class="empty">لا توجد سجلات</div>';return;} container.innerHTML=filtered.map(r=>`<div class="rec-item" style="padding:12px;border-bottom:1px solid #eee;"><div><div style="font-weight:700;">${r.branch}</div><div style="font-size:10px;">${r.date||''} ${r.time||''} · ${r.evaluator||''}</div></div><div style="display:flex;gap:8px;align-items:center;"><span class="score-pill" style="background:${r.grade==='E'?'#f9f2d9':r.grade==='V'?'#e0f2e9':'#fee2e2'}">${r.score}/100</span><button class="del-btn" onclick="deleteRecord(${r.id})">🗑</button></div></div>`).join('');}
+function deleteRecord(id){ if(confirm('حذف؟')){ records=records.filter(r=>r.id!==id); saveRecords(); renderRecords(); renderDashboard(); showToast('تم الحذف'); } }
+function clearAll(){ if(confirm('مسح كل السجلات نهائياً؟')){ records=[]; saveRecords(); renderRecords(); renderDashboard(); showToast('تم المسح'); } }
+function sendWA(){ let branch=document.getElementById('branchName').value||'—'; let grand=document.getElementById('finalNum').innerText; let lines=SECTIONS.map(sec=>{let t=0;sec.items.forEach(it=>t+=scores[it.id]);return `${sec.ar}: ${t}/${sec.max}`;}).join('\n'); let msg=`🕵️ تقرير Naif\n📍${branch}\n${lines}\n🏆 الإجمالي: ${grand}/100\nUpselling: ${upsellVal==='good'?'ممتاز':upsellVal==='weak'?'ضعيف':'لم يتم'}\nملاحظات: ${document.getElementById('notesText').value}`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);}
+function sendDashWA(){ if(!records.length) return; let avg=Math.round(records.reduce((s,r)=>s+r.score,0)/records.length); let msg=`📊 تقرير الفروع - نايف\nالزيارات: ${records.length}\nالمتوسط: ${avg}/100\n${[...new Map(records.map(r=>[r.branch,r]))].map(b=>{let br=records.filter(r=>r.branch===b[0]);let sc=Math.round(br.reduce((a,c)=>a+c.score,0)/br.length);return `${b[0]}: ${sc}`;}).join('\n')}`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);}
+function switchTab(t){ ['form','dash','records'].forEach(k=>{ document.getElementById('page-'+k).classList.toggle('active',k===t); document.getElementById('nav-'+k).classList.toggle('active',k===t); }); if(t==='dash') renderDashboard(); if(t==='records') renderRecords(); document.getElementById('scrollArea').scrollTop=0; }
+// init
+buildForm(); recalc(); loadRecords(); updateBranchDatalist(); buildAlphabetFilter(); document.getElementById('visitDate').valueAsDate=new Date(); window.selUpsell=selUpsell; window.chScore=chScore; window.selType=selType; window.saveRecord=saveRecord; window.resetForm=resetForm; window.sendWA=sendWA; window.sendDashWA=sendDashWA; window.switchTab=switchTab; window.deleteRecord=deleteRecord; window.clearAll=clearAll; window.exportEvaluationPDF=exportEvaluationPDF; window.exportDashboardPDF=exportDashboardPDF; window.renderRecords=renderRecords; window.toggleSec=toggleSec;
+</script>
+</body>
+</html>
